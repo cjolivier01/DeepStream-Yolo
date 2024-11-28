@@ -6,8 +6,13 @@ perf-measurement-interval-sec=5
 enable=1
 rows=1
 columns=1
-width=1280
+
+width=1940
 height=720
+
+
+#width=1280
+#height=720
 gpu-id=0
 nvbuf-memory-type=0
 
@@ -57,6 +62,21 @@ gpu-id=0
 gie-unique-id=1
 nvbuf-memory-type=0
 config-file=config_infer_yolox_hockey.txt
+
+[tracker]
+enable=1
+# For NvDCF and NvDeepSORT tracker, tracker-width and tracker-height must be a multiple of 32, respectively
+tracker-width=960
+tracker-height=544
+ll-lib-file=/opt/nvidia/deepstream/deepstream/lib/libnvds_nvmultiobjecttracker.so
+# ll-config-file required to set different tracker types
+# ll-config-file=/home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_IOU.yml
+# ll-config-file=/home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvSORT.yml
+ll-config-file=/home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDCF_perf.yml
+# ll-config-file=/home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDCF_accuracy.yml
+# ll-config-file=/home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDeepSORT.yml
+gpu-id=0
+display-tracking-id=1
 
 [tests]
 file-loop=0
