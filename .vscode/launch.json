@@ -1,0 +1,94 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  //
+  "version": "0.2.0",
+  "configurations": [
+    {
+      //
+      // Python: Current File
+      //
+      "name": "Python: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceRoot}/build:${workspaceRoot}/src:${workspaceRoot}/external/MOTChallengeEvalKit"
+      }
+    },
+    {
+      "name": "GStreamer - Build and debug",
+      "request": "launch",
+      "type": "cppdbg",
+      "linux": {
+        "MIMode": "gdb",
+        "envFile": "${workspaceFolder}/${config:mesonbuild.buildFolder}/meson-vscode.env",
+      },
+      "cwd": "${workspaceFolder}/${config:mesonbuild.buildFolder}/subprojects/gstreamer/tools/",
+      "program": "${workspaceFolder}/${config:mesonbuild.buildFolder}/subprojects/gstreamer/tools/gst-launch-1.0",
+      "args": [
+        "playbin",
+        "uri=file:///olivier-pool/Videos/ev-bs-short/GX010085.MP4"
+        //"videotestsrc",
+        //"fakevideodec",
+        //"!",
+        //"autovideosink"
+        //"fakesink",
+      ],
+      "environment": [
+        {
+          "name": "GST_DEBUG",
+          "value": "*:4"
+        },
+      ],
+      "stopAtEntry": false,
+      "preLaunchTask": "Meson: Build all targets",
+      "symbolOptions": {
+        "searchPaths": [
+          "${workspaceFolder}/${config:mesonbuild.buildFolder}",
+        ],
+        "searchMicrosoftSymbolServer": true,
+        "cachePath": "${workspaceFolder}\\${config:mesonbuild.buildFolder}\\vscode-symbols-cache",
+        "moduleFilter": {
+          "mode": "loadAllButExcluded",
+          "excludedModules": []
+        }
+      }
+    },
+    {
+      "name": "(LLDB) GStreamer - Build and debug",
+      "type": "lldb",
+      "request": "launch",
+      "linux": {
+        "envFile": "${workspaceFolder}/${config:mesonbuild.buildFolder}/meson-vscode.env",
+      },
+      "cwd": "${workspaceFolder}/${config:mesonbuild.buildFolder}/subprojects/gstreamer/tools/",
+      //"program": "${workspaceFolder}/${config:mesonbuild.buildFolder}/subprojects/gstreamer/tools/gst-inspect-1.0",
+      //"program": "/usr/bin/deepstream-app",
+      "program": "${workspaceFolder}/${config:mesonbuild.buildFolder}/subprojects/gstreamer/tools/gst-launch-1.0",
+      //"program": "/home/colivier/mambaforge/envs/ubuntu/bin/gst-launch-1.0",
+      "args": [
+        //"nvh264dec",
+        //"nvstreammux",
+        "playbin",
+        "uri=file:///olivier-pool/Videos/ev-bs-short/GX010085.MP4"
+        //"videotestsrc",
+        //"fakevideodec",6
+        //"!",
+        //"autovideosink"
+        //"fakesink",
+      ],
+      "env": {
+        //"GST_DEBUG": "4",
+        "LD_LIBRARY_PATH": "/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu:/opt/nvidia/deepstream/deepstream/lib",
+        "GST_PLUGIN_PATH": "/opt/nvidia/deepstream/deepstream/lib/gst-plugins",
+      },
+      "preLaunchTask": "Meson: Build all targets",
+    }
+  ]
+}

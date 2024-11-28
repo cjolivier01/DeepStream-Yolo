@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "Meson: Build all targets",
+          "type": "shell",
+          "command": "meson compile -C builddir",
+          "group": {
+              "kind": "build",
+              "isDefault": true
+          },
+          "problemMatcher": [
+              "$gcc"
+          ],
+          "presentation": {
+              "reveal": "always",
+              "panel": "shared",
+              "clear": true
+          }
+      }
+  ]
+}
