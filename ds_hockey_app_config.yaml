@@ -134,7 +134,7 @@ primary-gie:
   config-file: config_infer_yolox_hockey.yaml
 
 tracker:
-  enable: 0
+  enable: 1
   # For NvDCF and NvDeepSORT tracker, tracker-width and tracker-height must be a multiple of 32, respectively
   tracker-width: 960
   tracker-height: 544
