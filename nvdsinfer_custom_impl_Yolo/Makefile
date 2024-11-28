@@ -56,6 +56,12 @@ endif
 
 CUFLAGS:= -I/opt/nvidia/deepstream/deepstream/sources/includes -I/usr/local/cuda-$(CUDA_VER)/include
 
+ifeq ($(DEBUG), 1)
+CFLAGS += -O0 -g
+CUFLAGS += -g
+endif
+
+
 ifeq ($(shell ldconfig -p | grep -q libnvparsers && echo 1 || echo 0), 1)
 	LIBS+= -lnvparsers
 endif
