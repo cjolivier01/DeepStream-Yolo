@@ -114,13 +114,12 @@ streammux:
   height: 1080
   ##Enable to maintain aspect ratio wrt source, and allow black borders, works
   ##along with width, height properties
-  enable-padding: 0
+  enable-padding: 1
   nvbuf-memory-type: 0
 
 primary-gie:
   enable: 1
   gpu-id: 0
-  # model-engine-file: ../../models/Primary_Detector/resnet18_trafficcamnet_pruned.onnx_b4_gpu0_int8.engine
   batch-size: 4
   #Required by the app for OSD, not a plugin property
   bbox-border-color0: 1;0;0;1
@@ -130,7 +129,6 @@ primary-gie:
   interval: 0
   gie-unique-id: 1
   nvbuf-memory-type: 0
-  # config-file: config_infer_primary.yml
   config-file: config_infer_yolox_hockey.yaml
 
 tracker:
@@ -142,8 +140,8 @@ tracker:
   # ll-config-file required to set different tracker types
   # ll-config-file: /home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_IOU.yml
   # ll-config-file: /home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvSORT.yml
-  # ll-config-file: /home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDCF_perf.yml
-  ll-config-file: /home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDCF_accuracy.yml
+  ll-config-file: /home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDCF_perf.yml
+  # ll-config-file: /home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDCF_accuracy.yml
   # ll-config-file: /home/colivier/src/deepstream/deepstream/samples/configs/deepstream-app/config_tracker_NvDeepSORT.yml
   gpu-id: 0
   display-tracking-id: 1
