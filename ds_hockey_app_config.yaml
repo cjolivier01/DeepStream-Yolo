@@ -21,8 +21,10 @@ tiled-display:
   columns: 1
   # rows: 2
   # columns: 2
-  width: 4096
-  height: 1440
+  width: 7680
+  height: 3176
+  # width: 4096
+  # height: 1440
   # width: 2048
   # height: 720
   # width: 1280
@@ -114,7 +116,7 @@ streammux:
   height: 1080
   ##Enable to maintain aspect ratio wrt source, and allow black borders, works
   ##along with width, height properties
-  enable-padding: 1
+  enable-padding: 0
   nvbuf-memory-type: 0
 
 primary-gie:
