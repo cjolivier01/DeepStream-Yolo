@@ -2,9 +2,9 @@ property:
   gpu-id: 0
   net-scale-factor: 1
   model-color-format: 1
-  onnx-file: pretrained/deepstream/yolox/yolox_s.pth.onnx
+  # onnx-file: pretrained/deepstream/yolox/yolox_s.pth.onnx
+  onnx-file: pretrained/deepstream/yolox/test_output_yolox_s_coco300_ch80.pth.onnx
   model-engine-file: model_b4_gpu0_fp32.engine
-  # model-engine-file: model_b4_gpu0_fp32.engine
   labelfile-path: pretrained/deepstream/yolox/labels_coco.txt
   batch-size: 1
   # batch-size: 4

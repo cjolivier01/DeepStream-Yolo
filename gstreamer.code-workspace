@@ -1,21 +1,27 @@
 {
 	"folders": [
-		{
-			"path": "../gstreamer"
-		},
-		{
-			"path": "../deepstream_python_apps"
-		},
-		{
-			"path": "../YOLOX"
-		},
-		{
-			"path": "."
-		},
-		{
-			"path": "../hmdeepstream"
-		}
-	],
+    {
+      "path": "../gstreamer"
+    },
+    {
+      "path": "../deepstream_python_apps"
+    },
+    {
+      "path": "../YOLOX"
+    },
+    {
+      "path": "."
+    },
+    {
+      "path": "../hmdeepstream"
+    },
+    {
+      "path": "../deepstream_reference_apps"
+    },
+    {
+      "path": "../kornia"
+    }
+  ],
   "settings": {
     "workbench.editor.enablePreview": false,
     "workbench.sideBar.location": "right",
