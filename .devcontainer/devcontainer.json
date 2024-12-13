@@ -1,7 +1,7 @@
 {
 	// For quick reference: https://containers.dev/implementors/json_reference/
 	"name": "Deepstream",
-	"image": "colivier-local/deepstream:0.0014",
+	"image": "colivier/deepstream:0.0021",
 	//"build": {
 	//"args": {
 	//"RUN_UPGRADE": "false"
@@ -20,6 +20,7 @@
 	"runArgs": [
 		"--gpus",
 		"all",
+    "--runtime", "nvidia",
 		"-v",
 		"${env:HOME}:${env:HOME}",
 		"-v",

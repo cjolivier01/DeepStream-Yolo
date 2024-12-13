@@ -19,7 +19,7 @@
       "path": "../deepstream_reference_apps"
     },
     {
-      "path": "../kornia"
+      "path": "../tmp/ext"
     }
   ],
   "settings": {
