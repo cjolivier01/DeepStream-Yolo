@@ -10,7 +10,8 @@ namespace sample {
 namespace test {
 
 gxf_result_t HelloWorld::start() {
-  assert(false);
+  GXF_LOG_INFO("Before assert...");
+  //assert(false);
   #ifdef NDEBUG
   #error "not a debug build"
   #endif
