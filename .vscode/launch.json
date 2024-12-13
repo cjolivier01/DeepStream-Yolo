@@ -56,14 +56,14 @@
       "program": "/usr/bin/gxe",
       "args": [
         "-app", "${workspaceFolder}/src/apps/app.yaml",
-        "-manifest", "/tmp/ds.app/manifest.yaml",
+        "-manifest", "${workspaceFolder}/src/manifest.yaml",
       ],
       "sourceMap": {
         "/proc/self/cwd": "${workspaceFolder}/src",
       },
       "env": {
         //"GST_DEBUG": "4",
-        "LD_LIBRARY_PATH": "/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu:/opt/nvidia/deepstream/deepstream/lib",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/src/lib:/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu:/opt/nvidia/deepstream/deepstream/lib",
         "GST_PLUGIN_PATH": "/home/colivier/src/hmdeepstream/deepstream/gst-plugins:/opt/nvidia/deepstream/deepstream/lib/gst-plugins",
         "GST_DEBUG": "4",
       },

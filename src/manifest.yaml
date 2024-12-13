@@ -1,0 +1,13 @@
+extensions:
+- /tmp/ds.app/gxf/std/libgxf_std.so
+# - /tmp/ds.app/gxf/hello_world/libgxf_hello_world.so
+- /home/colivier/src/DeepStream-Yolo/src/lib/libgxf_hello_world.so
+variants:
+- extension: StandardExtension
+  uuid: 8ec2d5d6-b5df-48bf-8dee-0252606fdd7e
+  version: 2.6.0
+  variant: 'arch: x86_64 os: linux distribution: ubuntu_22.04 cuda: 12.6 '
+- extension: hello_world
+  uuid: 05f887af-ddee-3d15-b467-168585f324f4
+  version: 1.0.2
+  variant: 'arch: x86_64 os: linux distribution: ubuntu_22.04 '
