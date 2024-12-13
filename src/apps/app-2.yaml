@@ -8,6 +8,18 @@ dependencies:
 - extension: StandardExtension
   uuid: 8ec2d5d6-b5df-48bf-8dee-0252606fdd7e
   version: 2.6.0
+- extension: pango
+  uuid: b8c238de-2129-3a4f-99d0-ddb9432df5b2
+  version: 0.0.1
+- extension: NvDsBaseExt
+  uuid: 56d7e3ec-62c6-4652-bcc8-4f1c3b00df03
+  version: 1.6.0
+- extension: NvDsSourceExt
+  uuid: a632d022-3425-4848-9074-e6483ef74366
+  version: 1.6.0
+- extension: NvDsOutputSinkExt
+  uuid: 3fc9ad87-03e7-47a8-bbfc-8501c3f7ff2f
+  version: 1.6.0
 ---
 components:
 - name: signal
@@ -19,8 +31,8 @@ components:
 name: hello_world
 ui_property:
   position:
-    x: -345.3758850097656
-    y: -165.60948181152344
+    x: -494.3763732910156
+    y: -273.94317626953125
 ---
 components:
 - name: greedy_scheduler1
@@ -31,5 +43,68 @@ components:
 name: scheduler
 ui_property:
   position:
-    x: -344.6311950683594
-    y: 18.160600662231445
+    x: -329.6311340332031
+    y: -136.17320251464844
+---
+components:
+- name: GstTimeOverlay placeholder display-name0
+  parameters:
+    video-in: Static Data Input2
+    video-out: Static Data Output1
+  type: nvidia::deepstream::GstTimeOverlay
+- name: Static Data Output1
+  type: nvidia::deepstream::NvDsStaticOutput
+- name: Static Data Input2
+  type: nvidia::deepstream::NvDsStaticInput
+name: GstTimeOverlay placeholder display-name
+ui_property:
+  position:
+    x: -481.9490051269531
+    y: -3.1693081855773926
+---
+components:
+- name: Deepstream Scheduler3
+  type: nvidia::deepstream::NvDsScheduler
+name: scheduler
+---
+components:
+- name: Video Test Source4
+  parameters:
+    video-out: Static Data Output5
+  type: nvidia::deepstream::VideoTestSrc
+- name: Static Data Output5
+  type: nvidia::deepstream::NvDsStaticOutput
+name: Video Test Source
+ui_property:
+  position:
+    x: -846.6170043945312
+    y: -107.16967010498047
+---
+components:
+- name: Deepstream Data Connection6
+  parameters:
+    source: Video Test Source/Static Data Output5
+    target: GstTimeOverlay placeholder display-name/Static Data Input2
+  type: nvidia::deepstream::NvDsConnection
+name: node0
+---
+components:
+- name: Xv-based Video Renderer7
+  parameters:
+    in: Static Data Input8
+  type: nvidia::deepstream::XvImageSink
+- name: Static Data Input8
+  type: nvidia::deepstream::NvDsStaticInput
+name: Xv-based Video Renderer
+ui_property:
+  position:
+    x: -242.350341796875
+    y: 214.46697998046875
+---
+components:
+- name: Deepstream Data Connection9
+  parameters:
+    source: GstTimeOverlay placeholder display-name/Static Data Output1
+    target: Xv-based Video Renderer/Static Data Input8
+  type: nvidia::deepstream::NvDsConnection
+name: node1
