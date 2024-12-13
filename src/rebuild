@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 bazel clean
-bazel build --config=debug  $@ //...
+./bld $@
