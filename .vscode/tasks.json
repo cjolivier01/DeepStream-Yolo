@@ -1,22 +1,62 @@
 {
   "version": "2.0.0",
   "tasks": [
-      {
-          "label": "Meson: Build all targets",
-          "type": "shell",
-          "command": "meson compile -C builddir",
-          "group": {
-              "kind": "build",
-              "isDefault": true
-          },
-          "problemMatcher": [
-              "$gcc"
-          ],
-          "presentation": {
-              "reveal": "always",
-              "panel": "shared",
-              "clear": true
-          }
+    {
+      "label": "Build extensions",
+      "type": "shell",
+      "command": "./bld",
+      "args": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceRoot}/src",
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Rebuild extensions",
+      "type": "shell",
+      "command": "./rebuild",
+      "args": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "options": {
+        "cwd": "${workspaceRoot}/src",
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Meson: Build all targets",
+      "type": "shell",
+      "command": "meson compile -C builddir",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
       }
+    },
   ]
 }

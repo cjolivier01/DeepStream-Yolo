@@ -1,0 +1,35 @@
+application:
+  name: app-2
+---
+dependencies:
+- extension: hello_world
+  uuid: 05f887af-ddee-3d15-b467-168585f324f4
+  version: 1.0.2
+- extension: StandardExtension
+  uuid: 8ec2d5d6-b5df-48bf-8dee-0252606fdd7e
+  version: 2.6.0
+---
+components:
+- name: signal
+  type: sample::test::HelloWorld
+- name: count_scheduling_term0
+  parameters:
+    count: 10
+  type: nvidia::gxf::CountSchedulingTerm
+name: hello_world
+ui_property:
+  position:
+    x: -345.3758850097656
+    y: -165.60948181152344
+---
+components:
+- name: greedy_scheduler1
+  parameters:
+    max_duration_ms: 1000000
+    realtime: false
+  type: nvidia::gxf::GreedyScheduler
+name: scheduler
+ui_property:
+  position:
+    x: -344.6311950683594
+    y: 18.160600662231445
