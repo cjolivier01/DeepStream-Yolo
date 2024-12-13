@@ -2,65 +2,30 @@ application:
   name: app-2
 ---
 dependencies:
-- extension: hello_world
-  uuid: 05f887af-ddee-3d15-b467-168585f324f4
-  version: 1.0.2
-- extension: StandardExtension
-  uuid: 8ec2d5d6-b5df-48bf-8dee-0252606fdd7e
-  version: 2.6.0
-- extension: pango
-  uuid: b8c238de-2129-3a4f-99d0-ddb9432df5b2
-  version: 0.0.1
 - extension: NvDsBaseExt
   uuid: 56d7e3ec-62c6-4652-bcc8-4f1c3b00df03
   version: 1.6.0
 - extension: NvDsSourceExt
   uuid: a632d022-3425-4848-9074-e6483ef74366
   version: 1.6.0
+- extension: NvDsMuxDemuxExt
+  uuid: 89b8398c-5820-4051-835c-a91f2d49766b
+  version: 1.6.0
+- extension: NvDsInferenceExt
+  uuid: 0b02963e-c24e-4c13-ace0-c4cdf36c7c71
+  version: 1.6.0
+- extension: NvDsSampleModelsExt
+  uuid: 909dc1ea-c654-44c1-97a3-0b8fec12141a
+  version: 1.7.0
+- extension: NvDsVisualizationExt
+  uuid: 25903cd4-fc5c-4139-987b-47bb27e8b424
+  version: 1.6.0
 - extension: NvDsOutputSinkExt
   uuid: 3fc9ad87-03e7-47a8-bbfc-8501c3f7ff2f
   version: 1.6.0
----
-components:
-- name: signal
-  type: sample::test::HelloWorld
-- name: count_scheduling_term0
-  parameters:
-    count: 10
-  type: nvidia::gxf::CountSchedulingTerm
-name: hello_world
-ui_property:
-  position:
-    x: -494.3763732910156
-    y: -273.94317626953125
----
-components:
-- name: greedy_scheduler1
-  parameters:
-    max_duration_ms: 1000000
-    realtime: false
-  type: nvidia::gxf::GreedyScheduler
-name: scheduler
-ui_property:
-  position:
-    x: -329.6311340332031
-    y: -136.17320251464844
----
-components:
-- name: GstTimeOverlay placeholder display-name0
-  parameters:
-    video-in: Static Data Input2
-    video-out: Static Data Output1
-  type: nvidia::deepstream::GstTimeOverlay
-- name: Static Data Output1
-  type: nvidia::deepstream::NvDsStaticOutput
-- name: Static Data Input2
-  type: nvidia::deepstream::NvDsStaticInput
-name: GstTimeOverlay placeholder display-name
-ui_property:
-  position:
-    x: -481.9490051269531
-    y: -3.1693081855773926
+- extension: hello_world
+  uuid: 05f887af-ddee-3d15-b467-168585f324f4
+  version: 1.0.2
 ---
 components:
 - name: Deepstream Scheduler3
@@ -68,43 +33,126 @@ components:
 name: scheduler
 ---
 components:
-- name: Video Test Source4
+- name: Single Source Input26
   parameters:
-    video-out: Static Data Output5
-  type: nvidia::deepstream::VideoTestSrc
-- name: Static Data Output5
+    audio-out-%u: Dynamic Data Output28
+    uri: file:///mnt/ripper-data/Videos/ev-reno-1/stitched_output-with-audio.mp4
+    video-out-%u: Dynamic Data Output27
+  type: nvidia::deepstream::NvDsSingleSrcInput
+- name: Dynamic Data Output27
+  type: nvidia::deepstream::NvDsDynamicOutput
+- name: Dynamic Data Output28
+  type: nvidia::deepstream::NvDsDynamicOutput
+name: Single Source Input
+ui_property:
+  position:
+    x: -944.951416015625
+    y: -150.90875244140625
+---
+components:
+- name: Stream Muxer31
+  parameters:
+    batch-size: 1
+    height: 1360
+    video-in-%u: On Request Data Input32
+    video-out: Static Data Output33
+    width: 4080
+  type: nvidia::deepstream::NvDsStreamMux
+- name: On Request Data Input32
+  type: nvidia::deepstream::NvDsOnRequestInput
+- name: Static Data Output33
   type: nvidia::deepstream::NvDsStaticOutput
-name: Video Test Source
+name: Stream Muxer
 ui_property:
   position:
-    x: -846.6170043945312
-    y: -107.16967010498047
+    x: -602.7103271484375
+    y: 173.4186553955078
 ---
 components:
-- name: Deepstream Data Connection6
+- name: Deepstream Data Connection34
   parameters:
-    source: Video Test Source/Static Data Output5
-    target: GstTimeOverlay placeholder display-name/Static Data Input2
+    source: Single Source Input/Dynamic Data Output27
+    target: Stream Muxer/On Request Data Input32
   type: nvidia::deepstream::NvDsConnection
-name: node0
+name: node10
 ---
 components:
-- name: Xv-based Video Renderer7
+- name: Video Inference39
   parameters:
-    in: Static Data Input8
-  type: nvidia::deepstream::XvImageSink
-- name: Static Data Input8
+    infer-model-config: 4-class Detector43
+    video-in: Static Data Input41
+    video-out: Static Data Output40
+  type: nvidia::deepstream::NvDsInferVideo
+- name: Static Data Output40
+  type: nvidia::deepstream::NvDsStaticOutput
+- name: Static Data Input41
   type: nvidia::deepstream::NvDsStaticInput
-name: Xv-based Video Renderer
+- name: 4-class Detector43
+  type: nvidia::deepstream::NvDsResnet18_4ClassDetectorModel
+name: Video Inference
 ui_property:
   position:
-    x: -242.350341796875
-    y: 214.46697998046875
+    x: -279.79730224609375
+    y: 88.56556701660156
 ---
 components:
-- name: Deepstream Data Connection9
+- name: Deepstream Data Connection42
   parameters:
-    source: GstTimeOverlay placeholder display-name/Static Data Output1
-    target: Xv-based Video Renderer/Static Data Input8
+    source: Stream Muxer/Static Data Output33
+    target: Video Inference/Static Data Input41
   type: nvidia::deepstream::NvDsConnection
-name: node1
+name: node12
+---
+components:
+- name: On Screen Display44
+  parameters:
+    video-in: Static Data Input46
+    video-out: Static Data Output45
+  type: nvidia::deepstream::NvDsOSD
+- name: Static Data Output45
+  type: nvidia::deepstream::NvDsStaticOutput
+- name: Static Data Input46
+  type: nvidia::deepstream::NvDsStaticInput
+name: On Screen Display
+ui_property:
+  position:
+    x: 170.39556884765625
+    y: 113.55006408691406
+---
+components:
+- name: Deepstream Data Connection47
+  parameters:
+    source: Video Inference/Static Data Output40
+    target: On Screen Display/Static Data Input46
+  type: nvidia::deepstream::NvDsConnection
+name: node13
+---
+components:
+- name: NVidia Video Renderer48
+  parameters:
+    video-in: Static Data Input49
+  type: nvidia::deepstream::NvDsVideoRenderer
+- name: Static Data Input49
+  type: nvidia::deepstream::NvDsStaticInput
+name: NVidia Video Renderer
+ui_property:
+  position:
+    x: 337.74456787109375
+    y: 365.28094482421875
+---
+components:
+- name: Deepstream Data Connection50
+  parameters:
+    source: On Screen Display/Static Data Output45
+    target: NVidia Video Renderer/Static Data Input49
+  type: nvidia::deepstream::NvDsConnection
+name: node14
+---
+components:
+- name: hello_world51
+  type: sample::test::HelloWorld
+name: HelloWorld
+ui_property:
+  position:
+    x: 177.46649169921875
+    y: -132.52389526367188

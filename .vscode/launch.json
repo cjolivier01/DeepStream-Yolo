@@ -39,8 +39,8 @@
       ],
       "env": {
         //"GST_DEBUG": "4",
-        "LD_LIBRARY_PATH": "/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu:/opt/nvidia/deepstream/deepstream/lib",
-        "GST_PLUGIN_PATH": "/home/colivier/src/hmdeepstream/deepstream/gst-plugins:/opt/nvidia/deepstream/deepstream/lib/gst-plugins",
+        "LD_LIBRARY_PATH": "/home/colivier/src/hmdeepstream/deepstream/lib:/opt/nvidia/deepstream/deepstream/lib:/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu",
+        "GST_PLUGIN_PATH": "/home/colivier/src/hmdeepstream/deepstream/lib/gst-plugins:/opt/nvidia/deepstream/deepstream/lib/gst-plugins",
         "GST_DEBUG": "4",
       },
       // "preLaunchTask": "Meson: Build all targets",
@@ -56,16 +56,16 @@
       "program": "/usr/bin/gxe",
       "args": [
         "-app", "${workspaceFolder}/src/apps/app-2.yaml",
-        "-manifest", "${workspaceFolder}/src/manifest.yaml",
-        //"-manifest", "/tmp/ds.app-2/manifest.yaml",
+        //"-manifest", "${workspaceFolder}/src/manifest.yaml",
+        "-manifest", "/tmp/ds.app-2/manifest.yaml",
       ],
       "sourceMap": {
         "/proc/self/cwd": "${workspaceFolder}/src",
       },
       "env": {
         //"GST_DEBUG": "4",
-        "LD_LIBRARY_PATH": "${workspaceFolder}/src/lib:/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu:/opt/nvidia/deepstream/deepstream/lib",
-        "GST_PLUGIN_PATH": "/home/colivier/src/hmdeepstream/deepstream/gst-plugins:/opt/nvidia/deepstream/deepstream/lib/gst-plugins",
+        "LD_LIBRARY_PATH": "/home/colivier/src/hmdeepstream/deepstream/lib:/opt/nvidia/deepstream/deepstream/lib:/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu",
+        "GST_PLUGIN_PATH": "/home/colivier/src/hmdeepstream/deepstream/lib/gst-plugins:/opt/nvidia/deepstream/deepstream/lib/gst-plugins",
         "GST_DEBUG": "4",
       },
       // "preLaunchTask": "Meson: Build all targets",
