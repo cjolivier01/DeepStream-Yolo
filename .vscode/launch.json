@@ -61,6 +61,8 @@
       ],
       "sourceMap": {
         "/proc/self/cwd": "${workspaceFolder}/src",
+        //"/home/colivier/src": "~/src",
+        "~/src": "/home/colivier/src",
       },
       "env": {
         //"GST_DEBUG": "4",

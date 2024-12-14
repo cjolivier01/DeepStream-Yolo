@@ -26,6 +26,9 @@ dependencies:
 - extension: hello_world
   uuid: 05f887af-ddee-3d15-b467-168585f324f4
   version: 1.0.2
+- extension: nvdsgst_dsexample
+  uuid: c1de0ee4-2937-31d6-8720-b5f074bb5b53
+  version: 0.0.1
 ---
 components:
 - name: Deepstream Scheduler3
@@ -186,16 +189,8 @@ components:
 name: Stream Demuxer
 ui_property:
   position:
-    x: -2903.9716796875
-    y: -436.35498046875
----
-components:
-- name: Deepstream Data Connection26
-  parameters:
-    source: GstNvInfer placeholder display-name/Static Data Output68
-    target: Stream Demuxer/Static Data Input24
-  type: nvidia::deepstream::NvDsConnection
-name: node9
+    x: -2939.106201171875
+    y: -340.0173645019531
 ---
 components:
 - name: Deepstream Data Connection27
@@ -213,3 +208,36 @@ ui_property:
   position:
     x: -2145.918212890625
     y: -357.7122497558594
+---
+components:
+- name: GstDsExample placeholder display-name0
+  parameters:
+    batch-size: 4
+    video-in: Static Data Input2
+    video-out: Static Data Output1
+  type: nvidia::deepstream::GstDsExample
+- name: Static Data Output1
+  type: nvidia::deepstream::NvDsStaticOutput
+- name: Static Data Input2
+  type: nvidia::deepstream::NvDsStaticInput
+name: GstDsExample placeholder display-name
+ui_property:
+  position:
+    x: -2997.238037109375
+    y: -507.81890869140625
+---
+components:
+- name: Deepstream Data Connection3
+  parameters:
+    source: GstNvInfer placeholder display-name/Static Data Output68
+    target: GstDsExample placeholder display-name/Static Data Input2
+  type: nvidia::deepstream::NvDsConnection
+name: node0
+---
+components:
+- name: Deepstream Data Connection4
+  parameters:
+    source: GstDsExample placeholder display-name/Static Data Output1
+    target: Stream Demuxer/Static Data Input24
+  type: nvidia::deepstream::NvDsConnection
+name: node1

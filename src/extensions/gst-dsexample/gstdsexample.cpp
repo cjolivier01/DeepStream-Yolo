@@ -16,6 +16,7 @@
 #include <iostream>
 #include <ostream>
 #include <fstream>
+#include <cassert>
 #include "gstdsexample.h"
 #include <sys/time.h>
 GST_DEBUG_CATEGORY_STATIC (gst_dsexample_debug);
@@ -140,7 +141,6 @@ gst_dsexample_class_init (GstDsExampleClass * klass)
   GObjectClass *gobject_class;
   GstElementClass *gstelement_class;
   GstBaseTransformClass *gstbasetransform_class;
-
   /* Indicates we want to use DS buf api */
   g_setenv ("DS_NEW_BUFAPI", "1", TRUE);
 
@@ -228,6 +228,8 @@ gst_dsexample_class_init (GstDsExampleClass * klass)
 static void
 gst_dsexample_init (GstDsExample * dsexample)
 {
+  std::cerr << "element ASSERTING" << std::endl;
+  assert(false);
   GstBaseTransform *btrans = GST_BASE_TRANSFORM (dsexample);
 
   /* We will not be generating a new buffer. Just adding / updating

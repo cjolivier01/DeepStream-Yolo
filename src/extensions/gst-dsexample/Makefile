@@ -21,12 +21,12 @@ TARGET_DEVICE = $(shell gcc -dumpmachine | cut -f1 -d -)
 CXX:= g++
 
 ifeq ($(USE_OPTIMIZED_DSEXAMPLE),1)
-  SRCS:= gstdsexample_optimized.cpp
+  SRCS:= $(CURDIR)/gstdsexample_optimized.cpp
 else
-  SRCS:= gstdsexample.cpp
+  SRCS:= $(CURDIR)/gstdsexample.cpp
 endif
 
-SRCS+= dsexample_lib.c
+SRCS+= $(CURDIR)/dsexample_lib.c
 
 INCS:= $(wildcard *.h)
 LIB:=libnvdsgst_dsexample.so
