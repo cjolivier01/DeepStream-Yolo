@@ -26,6 +26,8 @@ else
   SRCS:= gstdsexample.cpp
 endif
 
+SRCS+= dsexample_lib.c
+
 INCS:= $(wildcard *.h)
 LIB:=libnvdsgst_dsexample.so
 
@@ -43,7 +45,6 @@ GST_INSTALL_DIR?=/opt/nvidia/deepstream/deepstream-$(NVDS_VERSION)/lib/gst-plugi
 LIB_INSTALL_DIR?=/opt/nvidia/deepstream/deepstream-$(NVDS_VERSION)/lib/
 
 LIBS := -shared -Wl,-no-undefined \
-	-L dsexample_lib -ldsexample \
 	-L/usr/local/cuda-$(CUDA_VER)/lib64/ -lcudart -ldl \
 	-lnppc -lnppig -lnpps -lnppicc -lnppidei \
 	-L$(LIB_INSTALL_DIR) -lnvdsgst_helper -lnvdsgst_meta -lnvds_meta -lnvbufsurface -lnvbufsurftransform\
@@ -78,10 +79,11 @@ $(LIB): $(OBJS) $(DEP) Makefile
 	$(CXX) -o $@ $(OBJS) $(LIBS)
 
 $(DEP): $(DEP_FILES)
-	$(MAKE) -C dsexample_lib/
+	# $(MAKE) -C dsexample_lib/
+	@echo
 
 install: $(LIB)
 	cp -rv $(LIB) $(GST_INSTALL_DIR)
 
 clean:
-	rm -rf $(OBJS) $(LIB)
+	rm -rf *.o *.so
