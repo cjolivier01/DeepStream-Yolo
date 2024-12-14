@@ -9,6 +9,14 @@
 namespace sample {
 namespace test {
 
+HelloWorld::HelloWorld() {
+  GXF_LOG_INFO("HelloWorld::HelloWorld()");
+}
+
+HelloWorld::~HelloWorld() {
+  GXF_LOG_INFO("HelloWorld::~HelloWorld()");
+}
+
 gxf_result_t HelloWorld::start() {
   GXF_LOG_INFO("Before assert...");
   //assert(false);
