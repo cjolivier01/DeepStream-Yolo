@@ -9,6 +9,11 @@ local_repository(
     path="/opt/nvidia/graph-composer/extension-dev",
 )
 
+# local_repository(
+#     name = "system_gstreamer_headers",
+#     path = "/usr/include/gstreamer-1.0",
+# )
+
 load(
     "@com_extension_dev//build:graph_extension.bzl",
     "load_extension_dev_workspace",
@@ -75,15 +80,30 @@ new_git_repository(
     shallow_since="1545145431 +0000",
 )
 
+# new_git_repository(
+#     name="gstreamer",
+#     build_file="//build:third_party/gstreamer.BUILD",
+#     commit="129493687793cbc109d6211bb0e465218e383e9d",
+#     patch_cmds=[
+#         "./autogen.sh --noconfigure",
+#         "./configure",
+#         "make -C gst gstenumtypes.h",
+#     ],
+#     remote="https://github.com/GStreamer/gstreamer.git",
+#     shallow_since="1559147561 +0100",
+# )
+
+# 1.24.2
 new_git_repository(
     name="gstreamer",
     build_file="//build:third_party/gstreamer.BUILD",
-    commit="129493687793cbc109d6211bb0e465218e383e9d",
+    commit="2d8273151571fcab887cc81de48e87aeb61b5c06",
     patch_cmds=[
-        "./autogen.sh --noconfigure",
-        "./configure",
-        "make -C gst gstenumtypes.h",
+        # "meson setup builddir",
+    #     "./autogen.sh --noconfigure",
+    #     "./configure",
+    #     "make -C gst gstenumtypes.h",
     ],
     remote="https://github.com/GStreamer/gstreamer.git",
-    shallow_since="1559147561 +0100",
+    # shallow_since="1559147561 +0100",
 )

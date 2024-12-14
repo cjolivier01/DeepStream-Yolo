@@ -20,6 +20,9 @@
     },
     {
       "path": "../../../../opt/nvidia/graph-composer"
+    },
+    {
+      "path": "../glib"
     }
   ],
   "settings": {
@@ -349,6 +352,7 @@
       }
     },
     "files.associations": {
+      "*.dbclient-js": "javascript",
       "cctype": "cpp",
       "clocale": "cpp",
       "cmath": "cpp",
@@ -467,7 +471,11 @@
       "__threading_support": "cpp",
       "format": "cpp",
       "__bits": "cpp",
-      "concepts": "cpp"
+      "concepts": "cpp",
+      "compare": "cpp",
+      "numbers": "cpp",
+      "ranges": "cpp",
+      "span": "cpp"
     },
     "git.ignoreLimitWarning": true,
     "workbench.iconTheme": "vscode-icons",

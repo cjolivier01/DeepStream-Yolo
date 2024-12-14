@@ -1,6 +1,5 @@
 
 #include "HelloWorld.hpp" // NOLINT
-
 #include <cassert>
 
 #include <unistd.h>

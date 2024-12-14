@@ -30,6 +30,7 @@ cc_import(
 cc_library(
     name = "gstreamer",
     hdrs = glob([
+        "subprojects/gstreamer/libs/**/*.h",
         "**/*.h",
     ]),
     includes = ["."],
