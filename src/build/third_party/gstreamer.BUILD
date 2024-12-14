@@ -30,10 +30,12 @@ cc_import(
 cc_library(
     name = "gstreamer",
     hdrs = glob([
-        "subprojects/gstreamer/libs/**/*.h",
-        "**/*.h",
+        "external/include/gstreamer-1.0/**/*.h"
     ]),
-    includes = ["."],
+    includes = ["external/include/gstreamer-1.0"],
+    copts=[
+        "-Iexternal/include/gstreamer-1.0",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "libgstreamer",
@@ -1751,3 +1753,13 @@ genrule(
     outs = ["gst_stub.c"],
     cmd = "echo \"" + stub_content + "\" > $@",
 )
+
+# cc_library(
+#     name = "gstreamer_headers",
+#     #srcs = glob(["src/**/*.c"]),
+#     #hdrs = glob(["include/**/*.h"]),
+#     hdrs = glob(["**/*.h"]),
+#     copts = ["-Iexternal/gstreamer/include"],
+#     linkopts = ["-lgstbase-1.0", "-lgobject-2.0", "-lglib-2.0"],
+#     visibility = ["//visibility:public"],
+# )

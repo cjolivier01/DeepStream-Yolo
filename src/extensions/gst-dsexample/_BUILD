@@ -30,20 +30,14 @@ graph_cc_extension(
       "gstdsexample.h", "gstdsexample_optimized.h", "dsexample_lib.h",
     ],
     copts=[
-      # "-I/usr/local/cuda/include",
-      #"-I/usr/include/gstreamer-1.0",
-      # "-I/opt/nvidia/deepstream/deepstream-7.1/sources/includes",
+      "-Ibuild/third_party/gstreamer/external/include/gstreamer-1.0",
     ],
     deps = [
-        #"@NvDsBaseExt",
-        #"@NvDsInterfaceExt",
+        "@NvDsBaseExt",
+        "@NvDsInterfaceExt",
         "@StandardExtension",
         "@glib",
         "@gstreamer",
-        #"@system_gstreamer_headers",
-        # "@NvDsInterfaceExt",
-        # "@glib",
-        # "@gstreamer",
         "@local_cuda//:cuda_runtime",
     ],
 )
