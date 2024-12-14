@@ -17,16 +17,15 @@ load(
 
 load_extension_dev_workspace()
 
-# load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-# git_repository(
-#     name = "rules_cuda",
-#     remote="https://github.com/bazel-contrib/rules_cuda",
-#     tag="v0.2.3",
-# )
+git_repository(
+    name = "rules_cuda",
+    remote="https://github.com/bazel-contrib/rules_cuda",
+    tag="v0.2.3",
+)
 
-# load("@rules_cuda//cuda:repositories.bzl", "register_detected_cuda_toolchains", "rules_cuda_dependencies")
-# rules_cuda_dependencies()
-# register_detected_cuda_toolchains()
+load("@rules_cuda//cuda:repositories.bzl", "register_detected_cuda_toolchains", "rules_cuda_dependencies")
+rules_cuda_dependencies()
+register_detected_cuda_toolchains()
 
 graph_nvidia_extension(
     name="NvDsInterfaceExt",
