@@ -1,3 +1,6 @@
 *.engine
 *.o
 *.so
+bazel-bin
+bazel-out
+bazel-testlogs
