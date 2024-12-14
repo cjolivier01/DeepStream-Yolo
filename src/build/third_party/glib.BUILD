@@ -27,16 +27,36 @@ cc_import(
     shared_library = "libgobject-2.0.so",
 )
 
+# cc_library(
+#     name = "glib",
+#     hdrs = glob([
+#         "**/*.h",
+#     ]),
+#     includes = [
+#         ".",
+#         "glib",
+#         "_build/glib",
+#         "_build",
+#     ],
+#     visibility = ["//visibility:public"],
+#     deps = [
+#         "libgobject",
+#     ],
+# )
+
 cc_library(
     name = "glib",
     hdrs = glob([
-        "**/*.h",
+        "external/include/glib-2.0/**/*.h",
+        "external/lib/x86_64-linux-gnu/glib-2.0/include/**/*.h",
     ]),
     includes = [
-        ".",
-        "glib",
-        "_build/glib",
-        "_build",
+      "external/include/glib-2.0",
+      "external/lib/x86_64-linux-gnu/glib-2.0/include",
+    ],
+    copts=[
+        "-Iexternal/include/glib-2.0",
+        "-Iexternal/lib/x86_64-linux-gnu/glib-2.0/include",
     ],
     visibility = ["//visibility:public"],
     deps = [

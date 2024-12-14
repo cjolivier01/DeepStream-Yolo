@@ -69,17 +69,30 @@ git_repository(
     strip_prefix="",  # No need for strip_prefix since Git directly clones the repository
 )
 
+# new_git_repository(
+#     name="glib",
+#     build_file="//build:third_party/glib.BUILD",
+#     commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
+#     patch_cmds=[
+#         "meson _build",
+#         "ninja -C _build gobject/glib-enumtypes.h",
+#     ],
+#     remote="https://github.com/GNOME/glib.git",
+#     shallow_since="1545145431 +0000",
+# )
+
 new_git_repository(
-    name="glib",
-    build_file="//build:third_party/glib.BUILD",
-    commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
+     name="glib",
+     build_file="//build:third_party/glib.BUILD",
+     commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
     patch_cmds=[
-        "meson _build",
-        "ninja -C _build gobject/glib-enumtypes.h",
+        "meson setup builddir -Dprefix=$(pwd)/external",
+        "ninja -C builddir install",
     ],
     remote="https://github.com/GNOME/glib.git",
-    shallow_since="1545145431 +0000",
+    # shallow_since="1559147561 +0100",
 )
+
 
 # new_git_repository(
 #     name="gstreamer",
