@@ -17,9 +17,6 @@
     },
     {
       "path": "../deepstream_reference_apps"
-    },
-    {
-      "path": "../tmp/ext"
     }
   ],
   "settings": {
