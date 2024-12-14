@@ -30,9 +30,12 @@ graph_cc_extension(
       "gstdsexample.h", "gstdsexample_optimized.h", "dsexample_lib.h",
     ],
     copts=[
-      "-Ibuild/third_party/gstreamer/external/include/gstreamer-1.0",
+      # "-Ibuild/third_party/gstreamer/external/include/gstreamer-1.0",
+      #"-Iinclude",
+      # "-I../include",
     ],
     deps = [
+        "//extensions/includes:deepstream_headers",
         "@NvDsBaseExt",
         "@NvDsInterfaceExt",
         "@StandardExtension",
