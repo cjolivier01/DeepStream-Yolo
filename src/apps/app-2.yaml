@@ -30,8 +30,8 @@ components:
 name: scheduler
 ui_property:
   position:
-    x: -1070.4346923828125
-    y: -341.1317138671875
+    x: -2551.710693359375
+    y: -771.8973388671875
 ---
 components:
 - name: Single Source Input26
@@ -47,13 +47,13 @@ components:
 name: Single Source Input
 ui_property:
   position:
-    x: -1245.9342041015625
-    y: -22.306564331054688
+    x: -2940.21923828125
+    y: -722.9708251953125
 ---
 components:
 - name: Stream Muxer31
   parameters:
-    batch-size: 1
+    batch-size: 4
     height: 480
     video-in-%u: On Request Data Input32
     video-out: Static Data Output33
@@ -66,8 +66,8 @@ components:
 name: Stream Muxer
 ui_property:
   position:
-    x: -861.6859741210938
-    y: 15.400177001953125
+    x: -2568.617919921875
+    y: -660.9730224609375
 ---
 components:
 - name: Deepstream Data Connection34
@@ -80,7 +80,7 @@ name: node10
 components:
 - name: GstNvInfer placeholder display-name67
   parameters:
-    batch-size: 1
+    batch-size: 4
     config-file-path: /home/colivier/src/DeepStream-Yolo/config_infer_yolox_hockey.yaml
     unique-id: 15
     video-in: Static Data Input69
@@ -93,8 +93,8 @@ components:
 name: GstNvInfer placeholder display-name
 ui_property:
   position:
-    x: -629.3367309570312
-    y: -329.2590637207031
+    x: -2186.846435546875
+    y: -678.9724731445312
 ---
 components:
 - name: Deepstream Data Connection70
@@ -114,8 +114,8 @@ components:
 name: NVidia Video Renderer
 ui_property:
   position:
-    x: -287.15423583984375
-    y: 214.70895385742188
+    x: -2570.17138671875
+    y: -172.03065490722656
 ---
 components:
 - name: Object Tracker3
@@ -135,16 +135,8 @@ components:
 name: Object Tracker
 ui_property:
   position:
-    x: -547.8765258789062
-    y: -30.147550582885742
----
-components:
-- name: Deepstream Data Connection6
-  parameters:
-    source: GstNvInfer placeholder display-name/Static Data Output68
-    target: Object Tracker/Static Data Input4
-  type: nvidia::deepstream::NvDsConnection
-name: node1
+    x: -2545.43603515625
+    y: -420.50665283203125
 ---
 components:
 - name: On Screen Display8
@@ -159,8 +151,8 @@ components:
 name: On Screen Display
 ui_property:
   position:
-    x: -622.8126831054688
-    y: 211.52865600585938
+    x: -2921.297607421875
+    y: -179.99273681640625
 ---
 components:
 - name: Deepstream Data Connection11
@@ -177,3 +169,35 @@ components:
     target: NVidia Video Renderer/Static Data Input1
   type: nvidia::deepstream::NvDsConnection
 name: node4
+---
+components:
+- name: Stream Demuxer23
+  parameters:
+    video-in: Static Data Input24
+    video-out-%u: On Request Data Output25
+  type: nvidia::deepstream::NvDsStreamDemux
+- name: Static Data Input24
+  type: nvidia::deepstream::NvDsStaticInput
+- name: On Request Data Output25
+  type: nvidia::deepstream::NvDsOnRequestOutput
+name: Stream Demuxer
+ui_property:
+  position:
+    x: -2903.9716796875
+    y: -436.35498046875
+---
+components:
+- name: Deepstream Data Connection26
+  parameters:
+    source: GstNvInfer placeholder display-name/Static Data Output68
+    target: Stream Demuxer/Static Data Input24
+  type: nvidia::deepstream::NvDsConnection
+name: node9
+---
+components:
+- name: Deepstream Data Connection27
+  parameters:
+    source: Stream Demuxer/On Request Data Output25
+    target: Object Tracker/Static Data Input4
+  type: nvidia::deepstream::NvDsConnection
+name: node10

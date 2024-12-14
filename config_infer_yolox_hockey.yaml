@@ -9,7 +9,7 @@ property:
   model-engine-file: /home/colivier/src/DeepStream-Yolo/src/model_b1_gpu0_fp32.engine
   # model-engine-file: model_b4_gpu0_fp32.engine
   labelfile-path: /mnt/data/pretrained/deepstream/yolox/labels_coco.txt
-  batch-size: 1
+  # batch-size: 1
   # batch-size: 4
   network-mode: 0
   # num-detected-classes: 80
