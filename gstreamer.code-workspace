@@ -17,6 +17,9 @@
     },
     {
       "path": "../deepstream_reference_apps"
+    },
+    {
+      "path": "../../../../opt/nvidia/graph-composer"
     }
   ],
   "settings": {

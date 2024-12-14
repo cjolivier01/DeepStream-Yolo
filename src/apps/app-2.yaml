@@ -14,6 +14,15 @@ dependencies:
 - extension: nvdsgst_infer
   uuid: 1ca0f521-371e-3c65-80fd-0b6a7cac4082
   version: 0.0.1
+- extension: NvDsOutputSinkExt
+  uuid: 3fc9ad87-03e7-47a8-bbfc-8501c3f7ff2f
+  version: 1.6.0
+- extension: NvDsTrackerExt
+  uuid: f5aaeb53-e9b8-4317-87d1-9549d67c1638
+  version: 1.6.0
+- extension: NvDsVisualizationExt
+  uuid: 25903cd4-fc5c-4139-987b-47bb27e8b424
+  version: 1.6.0
 ---
 components:
 - name: Deepstream Scheduler3
@@ -21,8 +30,8 @@ components:
 name: scheduler
 ui_property:
   position:
-    x: -1105.5830078125
-    y: -393.1029968261719
+    x: -1070.4346923828125
+    y: -341.1317138671875
 ---
 components:
 - name: Single Source Input26
@@ -44,7 +53,7 @@ ui_property:
 components:
 - name: Stream Muxer31
   parameters:
-    batch-size: 480
+    batch-size: 1
     height: 480
     video-in-%u: On Request Data Input32
     video-out: Static Data Output33
@@ -57,8 +66,8 @@ components:
 name: Stream Muxer
 ui_property:
   position:
-    x: -862.7442626953125
-    y: 14.871041297912598
+    x: -861.6859741210938
+    y: 15.400177001953125
 ---
 components:
 - name: Deepstream Data Connection34
@@ -71,7 +80,9 @@ name: node10
 components:
 - name: GstNvInfer placeholder display-name67
   parameters:
+    batch-size: 1
     config-file-path: /home/colivier/src/DeepStream-Yolo/config_infer_yolox_hockey.yaml
+    unique-id: 15
     video-in: Static Data Input69
     video-out: Static Data Output68
   type: nvidia::deepstream::GstNvInfer
@@ -92,3 +103,77 @@ components:
     target: GstNvInfer placeholder display-name/Static Data Input69
   type: nvidia::deepstream::NvDsConnection
 name: node22
+---
+components:
+- name: NVidia Video Renderer0
+  parameters:
+    video-in: Static Data Input1
+  type: nvidia::deepstream::NvDsVideoRenderer
+- name: Static Data Input1
+  type: nvidia::deepstream::NvDsStaticInput
+name: NVidia Video Renderer
+ui_property:
+  position:
+    x: -287.15423583984375
+    y: 214.70895385742188
+---
+components:
+- name: Object Tracker3
+  parameters:
+    gpu-id: 0
+    ll-config-file: /opt/nvidia/deepstream/deepstream-7.1/samples/configs/deepstream-app/config_tracker_NvDCF_perf.yml
+    ll-lib-file: /opt/nvidia/deepstream/deepstream/lib/libnvds_nvmultiobjecttracker.so
+    tracker-height: 480
+    tracker-width: 1312
+    video-in: Static Data Input4
+    video-out: Static Data Output5
+  type: nvidia::deepstream::NvDsTracker
+- name: Static Data Input4
+  type: nvidia::deepstream::NvDsStaticInput
+- name: Static Data Output5
+  type: nvidia::deepstream::NvDsStaticOutput
+name: Object Tracker
+ui_property:
+  position:
+    x: -547.8765258789062
+    y: -30.147550582885742
+---
+components:
+- name: Deepstream Data Connection6
+  parameters:
+    source: GstNvInfer placeholder display-name/Static Data Output68
+    target: Object Tracker/Static Data Input4
+  type: nvidia::deepstream::NvDsConnection
+name: node1
+---
+components:
+- name: On Screen Display8
+  parameters:
+    video-in: Static Data Input10
+    video-out: Static Data Output9
+  type: nvidia::deepstream::NvDsOSD
+- name: Static Data Output9
+  type: nvidia::deepstream::NvDsStaticOutput
+- name: Static Data Input10
+  type: nvidia::deepstream::NvDsStaticInput
+name: On Screen Display
+ui_property:
+  position:
+    x: -622.8126831054688
+    y: 211.52865600585938
+---
+components:
+- name: Deepstream Data Connection11
+  parameters:
+    source: Object Tracker/Static Data Output5
+    target: On Screen Display/Static Data Input10
+  type: nvidia::deepstream::NvDsConnection
+name: node3
+---
+components:
+- name: Deepstream Data Connection12
+  parameters:
+    source: On Screen Display/Static Data Output9
+    target: NVidia Video Renderer/Static Data Input1
+  type: nvidia::deepstream::NvDsConnection
+name: node4
