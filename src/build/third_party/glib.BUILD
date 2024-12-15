@@ -88,15 +88,27 @@ cc_library(
     hdrs = glob([
         "external/include/glib-2.0/**/*.h",
         "external/lib/x86_64-linux-gnu/glib-2.0/include/**/*.h",
-    ]),
+    ])+ select({
+      ":aarch64-linux-gnu":   ["external/lib/aarch64-linux-gnu/glib-2.0/include/**/*.h"],
+      ":x86_64-linux-gnu":    ["external/lib/x86_64-linux-gnu/glib-2.0/include/**/*.h"],
+      "//conditions:default": [],
+    }),
     includes = [
       "external/include/glib-2.0",
       "external/lib/x86_64-linux-gnu/glib-2.0/include",
-    ],
+    ] + select({
+      ":aarch64-linux-gnu":   ["external/lib/aarch64-linux-gnu/glib-2.0/include"],
+      ":x86_64-linux-gnu":    ["external/lib/x86_64-linux-gnu/glib-2.0/include"],
+      "//conditions:default": [],
+    }),
     copts=[
         "-Iexternal/include/glib-2.0",
         "-Iexternal/lib/x86_64-linux-gnu/glib-2.0/include",
-    ],
+    ]+ select({
+      ":aarch64-linux-gnu":   ["-Iexternal/lib/aarch64-linux-gnu/glib-2.0/include"],
+      ":x86_64-linux-gnu":    ["-Iexternal/lib/x86_64-linux-gnu/glib-2.0/include"],
+      "//conditions:default": [],
+    }),
     linkopts=[
         "-Lexternal/lib/x86_64-linux-gnu",
         "-lglib-2.0",
