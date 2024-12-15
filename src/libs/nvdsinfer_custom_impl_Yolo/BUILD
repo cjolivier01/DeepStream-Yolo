@@ -1,28 +1,20 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda")
 
-
-# copts = select({
-#     "//conditions:default": [
-#         "-Wall",
-#         "-std=c++11",
-#         ...
-#     ],
-#     "//my:opencv_enabled": [
-#         "-DOPENCV",
-#         # additional opencv includes...
-#     ],
-# })
+cc_binary(
+    name = "nvdsinfer_custom_impl_Yolo",
+    srcs=[
+      ":nvdsinfer_custom_impl_Yolo_lib",
+    ],
+    visibility = ["//visibility:public"],
+    linkshared = True,
+)
 
 cc_library(
-    name = "nvdsinfer_custom_impl_Yolo",
+    name = "nvdsinfer_custom_impl_Yolo_lib",
     srcs = glob([
         "*.cpp",
         "layers/*.cpp",
-        "*.cu",
-    ]),
-    hdrs = glob([
-        "*.h",
-        "layers/*.h",
     ]),
     # Define the compilation flags similar to CFLAGS/CUFLAGS
     # Adjust these paths, flags, and CUDA version as needed.
@@ -31,17 +23,7 @@ cc_library(
         "-std=c++11",
         "-fPIC",
         "-Wno-error=deprecated-declarations",
-        "-I/usr/include/gstreamer-1.0",
-        "-I/usr/include/glib-2.0",
-        "-I/usr/lib/x86_64-linux-gnu/glib-2.0/include",
-        "-I/opt/nvidia/deepstream/deepstream/sources/includes",
-        "-I/usr/local/cuda-12.6/include",
-        # If using OpenCV (uncomment if OPENCV=1 was intended)
-        # "-DOPENCV",
-        # Add OpenCV include paths if needed:
-        # e.g. "-I/usr/include/opencv4",
-        # If using GRAPH
-        # "-DGRAPH"
+        "-DWITH_CUDA",
     ],
     # Add libraries. Adjust the library search paths as needed.
     # If OPENCV=1, append `-lopencv_core -lopencv_highgui` etc. as needed.
@@ -59,7 +41,50 @@ cc_library(
         "-lnvparsers",
         "-Wl,--end-group",
     ],
+    deps=[
+        ":nvdsinfer_custom_impl_Yolo_headers",
+        ":nvdsinfer_custom_impl_Yolo_cuda_lib",
+        "@deepstream_lib",
+        "@deepstream_apps_common",
+        "@NvDsBaseExt",
+        "@NvDsInterfaceExt",
+        "@StandardExtension",
+        "@glib",
+        "@gstreamer",
+        "@opencv_linux//:opencv",
+        "@local_cuda//:cuda_runtime",
+    ],
     # Make sure the library is visible to where it’s needed.
     visibility = ["//visibility:public"],
-    linkshared = True,
+)
+
+cuda_library(
+    name = "nvdsinfer_custom_impl_Yolo_cuda_lib",
+    srcs=glob([
+        "*.cu",
+    ]),
+    copts=[
+      "-DWITH_CUDA",
+    ],
+    linkopts=[
+      "-shared",
+    ],
+    deps = [
+        ":nvdsinfer_custom_impl_Yolo_headers",
+        "@deepstream_lib",
+        "@local_cuda//:cuda_runtime",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "nvdsinfer_custom_impl_Yolo_headers",
+    hdrs = glob([
+        "*.h",
+        "layers/*.h",
+    ]),
+    # deps=[
+    #   "@local_cuda//:cuda_runtime",
+    # ],
+    visibility = ["//visibility:public"],
 )

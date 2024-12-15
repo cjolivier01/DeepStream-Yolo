@@ -104,4 +104,5 @@ new_git_repository(
         "ninja -C builddir install",
     ],
     remote="https://github.com/GStreamer/gstreamer.git",
+    shallow_since = "1712695735 +0100",
 )
