@@ -43,6 +43,7 @@ components:
 - name: Single Source Input26
   parameters:
     audio-out-%u: Dynamic Data Output28
+    disable-audio: true
     uri: file:///mnt/ripper-data/Videos/ev-reno-1/stitched_output-with-audio.mp4
     video-out-%u: Dynamic Data Output27
   type: nvidia::deepstream::NvDsSingleSrcInput

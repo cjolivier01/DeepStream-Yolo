@@ -42,6 +42,7 @@ cc_binary(
     # ],
     copts=[
       "-fPIC",
+      "-DWITH_OPENCV=1",
     ],
     linkopts=[
       "-shared",
