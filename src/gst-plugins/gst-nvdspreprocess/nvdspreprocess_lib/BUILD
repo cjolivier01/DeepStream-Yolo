@@ -1,0 +1,42 @@
+load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda")
+
+cuda_library(
+    name = "nvdspreprocess_cuda_lib",
+    srcs = [
+      "nvdspreprocess_conversion.cu",
+    ],
+    hdrs = [
+      "nvdspreprocess_conversion.h",
+    ],
+    copts=[
+      "-DWITH_CUDA",
+    ],
+    linkopts=[
+      "-shared",
+    ],
+    deps = [
+        "@local_cuda//:cuda_runtime",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "nvdspreprocess_lib",
+    srcs = [
+      "nvdspreprocess_impl.cpp", "nvdspreprocess_lib.cpp",
+    ],
+    hdrs = [
+      "nvdspreprocess_impl.h", "nvdspreprocess_lib.h",
+    ],
+    copts=[
+      "-fPIC",
+    ],
+    deps = [
+        ":nvdspreprocess_cuda_lib",
+        "@deepstream_lib",
+        "@glib",
+        "@gstreamer",
+        "@opencv_linux//:opencv",
+    ],
+    visibility = ["//visibility:public"],
+)
