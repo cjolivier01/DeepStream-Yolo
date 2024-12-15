@@ -33,7 +33,7 @@ exports_files(["LICENSE"])
 #graph_cc_extension(
 #cc_library(
 cc_binary(
-    name = "dsexample",
+    name = "nvdsgst_dsexample",
     srcs = [
       "gstdsexample.cpp", "dsexample_lib.c", "gstdsexample.h", "dsexample_lib.h",
     ],
