@@ -36,6 +36,10 @@ cc_library(
     copts=[
         "-Iexternal/include/gstreamer-1.0",
     ],
+    linkopts = [
+        "-Lexternal/lib",
+        "-lgstreamer-1.0",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "libgstreamer",
