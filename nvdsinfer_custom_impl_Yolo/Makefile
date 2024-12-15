@@ -58,7 +58,7 @@ endif
 CUFLAGS:= -I/opt/nvidia/deepstream/deepstream/sources/includes -I/usr/local/cuda-$(CUDA_VER)/include
 
 ifeq ($(DEBUG), 1)
-CFLAGS += -O0 -g
+CFLAGS += -O0 -g -Wl,-g
 CUFLAGS += -g
 endif
 
