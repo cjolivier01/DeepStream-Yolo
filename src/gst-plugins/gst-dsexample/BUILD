@@ -51,6 +51,7 @@ cc_binary(
     deps = [
         #"//extensions/includes:deepstream_headers",
         "@deepstream_lib",
+        "@deepstream_apps_common",
         "@NvDsBaseExt",
         "@NvDsInterfaceExt",
         "@StandardExtension",

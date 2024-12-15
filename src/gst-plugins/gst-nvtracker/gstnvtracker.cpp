@@ -113,9 +113,27 @@ static gboolean gst_nv_tracker_stop (GstBaseTransform * btrans);
 
 static gpointer gst_nv_nvtracker_output_loop (gpointer user_data);
 
+void print_caps(const GstCaps *caps) {
+    gchar *caps_str = gst_caps_to_string(caps);
+    g_print("Caps: %s\n", caps_str);
+    g_free(caps_str);
+}
+
+void print_caps_details(const GstCaps *caps) {
+    int size = gst_caps_get_size(caps);
+    for (int i = 0; i < size; i++) {
+        const GstStructure *structure = gst_caps_get_structure(caps, i);
+        gchar *structure_str = gst_structure_to_string(structure);
+        g_print("Structure %d: %s\n", i, structure_str);
+        g_free(structure_str);
+    }
+}
+
 static gboolean
 gst_nv_tracker_set_caps (GstBaseTransform* trans, GstCaps* incaps, GstCaps* outcaps)
 {
+  print_caps_details(incaps);
+  print_caps_details(outcaps);
   return TRUE;
 }
 

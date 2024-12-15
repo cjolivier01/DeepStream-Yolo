@@ -131,6 +131,141 @@ attach_metadata_full_frame (GstDsExample * dsexample, NvDsFrameMeta *frame_meta,
 static void attach_metadata_object (GstDsExample * dsexample,
     NvDsObjectMeta * obj_meta, DsExampleOutput * output);
 
+namespace {
+struct InputParams
+{
+  NvBufSurface *pSurfaceBatch;
+  NvDsBatchMeta *pBatchMeta;
+  void* pPreservedData;
+  bool eventMarker;
+};
+}
+
+static GstFlowReturn gst_ds_example_submit_input_buffer(GstBaseTransform * trans,
+    gboolean is_discont, GstBuffer * inbuf)
+{
+  GstDsExample *dsexample = (GstDsExample*)trans;
+  (void)dsexample;
+
+  /** NOTE: Initializing state to nullptr is essential. */
+  NvDsBatchMeta *batch_meta = nullptr;
+  GstMapInfo inmap;
+
+  batch_meta = gst_buffer_get_nvds_batch_meta(inbuf);
+
+  if (batch_meta->num_frames_in_batch == 0)
+  {
+    // g_mutex_lock(&dsexample->eventLock);
+    // bool result = dsexample->trackerIface->flushReqs();
+    // g_cond_wait(&dsexample->eventCondition, &dsexample->eventLock);
+    // g_mutex_unlock(&dsexample->eventLock);
+    // if (!result)
+    // {
+    //   return GST_FLOW_ERROR;
+    // }
+    return gst_pad_push (GST_BASE_TRANSFORM_SRC_PAD (trans), inbuf);
+  }
+
+  memset(&inmap, 0, sizeof(inmap));
+  if (!gst_buffer_map (inbuf, &inmap, GST_MAP_READ))
+  {
+    return GST_FLOW_ERROR;
+  }
+
+  nvds_set_input_system_timestamp(inbuf, GST_ELEMENT_NAME(trans));
+
+  NvBufSurface* inputBuffer  = reinterpret_cast<NvBufSurface*>(inmap.data);
+  (void)inputBuffer;
+  gst_buffer_unmap(inbuf, &inmap);
+
+  /* Compose the input params and submit for tracker processing
+     Keep track of the inbuf via pPreservedData, so the output loop
+     can push it down the pipeline. */
+  InputParams input;
+  input.pSurfaceBatch = inputBuffer;
+  input.pBatchMeta = batch_meta;
+  input.pPreservedData = inbuf;
+  input.eventMarker = false;
+  (void)input;
+
+  if (((inputBuffer->memType == NVBUF_MEM_DEFAULT ||
+        inputBuffer->memType == NVBUF_MEM_CUDA_DEVICE) &&
+       ((int)inputBuffer->gpuId != (int)dsexample->gpu_id)) ||
+       (((int)inputBuffer->gpuId == (int)dsexample->gpu_id) &&
+        (inputBuffer->memType == NVBUF_MEM_SYSTEM))) {
+    GST_ELEMENT_ERROR (dsexample, RESOURCE, FAILED,
+        ("Memory Compatibility Error:Input surface gpu-id doesnt match with configured gpu-id for element,"
+         " please allocate input using unified memory, or use same gpu-ids OR,"
+         " if same gpu-ids are used ensure appropriate Cuda memories are used"),
+        ("surface-gpu-id=%d,%s-gpu-id=%d",inputBuffer->gpuId,GST_ELEMENT_NAME(dsexample),
+         dsexample->gpu_id));
+    return GST_FLOW_ERROR;
+  }
+
+  // /** Check frame number in batch doesn't exceed batch size */
+  if (dsexample->batch_size && input.pBatchMeta->num_frames_in_batch > dsexample->batch_size)
+  {
+    GST_ELEMENT_ERROR (dsexample, STREAM, FAILED,
+      ("Frame number in input batch exceeds maximum batch size"),
+      (nullptr));
+    return GST_FLOW_ERROR;
+  }
+
+  // if (!dsexample->trackerIface->submitInput(input))
+  // {
+  //   GST_ELEMENT_ERROR (dsexample, STREAM, FAILED,
+  //     ("Failed to submit input to tracker"),
+  //     (nullptr));
+  //   return GST_FLOW_ERROR;
+  // }
+
+  return gst_pad_push (GST_BASE_TRANSFORM_SRC_PAD (trans), inbuf);
+
+  //return GST_FLOW_OK;
+}
+
+// static gpointer gst_nv_nvtracker_output_loop (gpointer user_data)
+// {
+//   GstNvTracker *dsexample = (GstNvTracker *) user_data;
+//   while(dsexample->running)
+//   {
+//     InputParams inputParams;
+//     CompletionStatus status = dsexample->trackerIface->waitForCompletion(inputParams);
+//     if (status == CompletionStatus_OK && dsexample->running)
+//     {
+//       /** Check for event marker */
+//       if (inputParams.eventMarker) {
+//           g_mutex_lock(&dsexample->eventLock);
+//           g_cond_signal(&dsexample->eventCondition);
+//           g_mutex_unlock(&dsexample->eventLock);
+//           continue;
+//       }
+//       GstBuffer *inbuf = (GstBuffer*)inputParams.pPreservedData;
+
+//       nvds_set_output_system_timestamp(inbuf, GST_ELEMENT_NAME(dsexample));
+
+//       /** Push the buffer to peer sink pad */
+//       gst_pad_push (GST_BASE_TRANSFORM_SRC_PAD (dsexample), inbuf);
+
+//     } else if (status == CompletionStatus_Exit) {
+//       dsexample->running = false;
+//       return dsexample;
+//     }
+//   }
+
+//   return dsexample;
+// }
+
+/* Mandatory override of generate_output function to match submit_input.
+ * The actual output is pushed from gst_nv_nvtracker_output_loop.
+ */
+static GstFlowReturn gst_ds_example_generate_output (GstBaseTransform * trans, GstBuffer ** outbuf)
+{
+  *outbuf = NULL;
+  return GST_FLOW_OK;
+}
+
+
 /* Install properties, set sink and src pad capabilities, override the required
  * functions of the base class, These are common to all instances of the
  * element.
@@ -152,9 +287,21 @@ gst_dsexample_class_init (GstDsExampleClass * klass)
   gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_dsexample_set_property);
   gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_dsexample_get_property);
 
+  gstbasetransform_class->submit_input_buffer =
+    GST_DEBUG_FUNCPTR (gst_ds_example_submit_input_buffer);
+  gstbasetransform_class->generate_output =
+    GST_DEBUG_FUNCPTR (gst_ds_example_generate_output);
+
   gstbasetransform_class->set_caps = GST_DEBUG_FUNCPTR (gst_dsexample_set_caps);
   gstbasetransform_class->start = GST_DEBUG_FUNCPTR (gst_dsexample_start);
   gstbasetransform_class->stop = GST_DEBUG_FUNCPTR (gst_dsexample_stop);
+
+  //   /** NOTE: Initializing state to nullptr is essential. */
+  // NvDsBatchMeta *batch_meta = nullptr;
+  // GstMapInfo inmap;
+
+  // batch_meta = gst_buffer_get_nvds_batch_meta(inbuf);
+
 
   gstbasetransform_class->transform_ip =
       GST_DEBUG_FUNCPTR (gst_dsexample_transform_ip);
@@ -207,7 +354,7 @@ gst_dsexample_class_init (GstDsExampleClass * klass)
   g_object_class_install_property (gobject_class, PROP_BATCH_SIZE,
       g_param_spec_uint ("batch-size", "Batch Size",
           "Maximum batch size for processing",
-          1, NVDSEXAMPLE_MAX_BATCH_SIZE, DEFAULT_BATCH_SIZE,
+          1, G_MAXUINT, DEFAULT_BATCH_SIZE,
           (GParamFlags) (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS |
               GST_PARAM_MUTABLE_READY)));
   /* Set sink and src pad capabilities */
@@ -246,7 +393,7 @@ gst_dsexample_init (GstDsExample * dsexample)
   dsexample->process_full_frame = DEFAULT_PROCESS_FULL_FRAME;
   dsexample->blur_objects = DEFAULT_BLUR_OBJECTS;
   dsexample->gpu_id = DEFAULT_GPU_ID;
-  dsexample->max_batch_size = DEFAULT_BATCH_SIZE;
+  dsexample->batch_size = DEFAULT_BATCH_SIZE;
 
   /* This quark is required to identify NvDsMeta when iterating through
    * the buffer metadatas */
@@ -281,7 +428,7 @@ gst_dsexample_set_property (GObject * object, guint prop_id,
       dsexample->gpu_id = g_value_get_uint (value);
       break;
     case PROP_BATCH_SIZE:
-      dsexample->max_batch_size = g_value_get_uint (value);
+      dsexample->batch_size = g_value_get_uint (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -318,7 +465,7 @@ gst_dsexample_get_property (GObject * object, guint prop_id,
       g_value_set_uint (value, dsexample->gpu_id);
       break;
     case PROP_BATCH_SIZE:
-      g_value_set_uint (value, dsexample->max_batch_size);
+      g_value_set_uint (value, dsexample->batch_size);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -353,7 +500,7 @@ gst_dsexample_start (GstBaseTransform * btrans)
   dsexample->is_integrated = val;
 
   GST_DEBUG_OBJECT (dsexample, "Setting batch-size %d \n",
-      dsexample->max_batch_size);
+      dsexample->batch_size);
 
   if (dsexample->process_full_frame && dsexample->blur_objects) {
     GST_ERROR ("Error: does not support blurring while processing full frame");
