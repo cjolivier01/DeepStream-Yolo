@@ -3,7 +3,7 @@ set -e
 SCRIPT_DIR=$(dirname $(realpath $0))
 BAZEL_FLAGS="--config=debug $@"
 # BAZEL_FLAGS=" --//:multiarch=aarch64-linux-gnu ${BAZEL_FLAGS}"
-bazel build ${BAZEL_FLAGS}  //...
+USE_BAZEL_VERSION=5.1.1 bazel build ${BAZEL_FLAGS}  //...
 
 BIN_DIR="$(bazel info ${BAZEL_FLAGS} bazel-bin)"
 echo "BIN_DIR=${BIN_DIR}"
