@@ -14,6 +14,45 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+config_setting(
+  name = "aarch64-linux-gnu",
+  define_values = {"multiarch": "aarch64-linux-gnu"},
+)
+
+config_setting(
+  name = "x86_64-linux-gnu",
+  define_values = {"multiarch": "x86_64-linux-gnu"},
+)
+
+# cc_library(
+#   name = "opencv",
+#   hdrs = glob([
+#       "opencv4/opencv2/**/*.h*",
+#   ]) + select({
+#     ":aarch64-linux-gnu":   ["aarch64-linux-gnu/opencv4/opencv2/cvconfig.h"],
+#     ":x86_64-linux-gnu":    ["x86_64-linux-gnu/opencv4/opencv2/cvconfig.h"],
+#     "//conditions:default": [],
+#   }),
+#   includes = [
+#       "opencv4",
+#   ] + select({
+#     ":aarch64-linux-gnu":   ["aarch64-linux-gnu/opencv4"],
+#     ":x86_64-linux-gnu":    ["x86_64-linux-gnu/opencv4"],
+#     "//conditions:default": [],
+#   }),
+#   linkopts = [
+#     "-l:libopencv_core.so",
+#     "-l:libopencv_calib3d.so",
+#     "-l:libopencv_features2d.so",
+#     "-l:libopencv_highgui.so",
+#     "-l:libopencv_imgcodecs.so",
+#     "-l:libopencv_imgproc.so",
+#     "-l:libopencv_video.so",
+#     "-l:libopencv_videoio.so",
+#   ],
+#   visibility = ["//visibility:public"],
+# )
+
 cc_binary(
     name = "libgstreamer-1.0.so",
     srcs = ["gst_stub"],
@@ -36,9 +75,14 @@ cc_library(
     copts=[
         "-Iexternal/include/gstreamer-1.0",
     ],
-    linkopts = [
-        "-Lexternal/lib",
-        "-lgstreamer-1.0",
+    linkopts = select({
+      ":aarch64-linux-gnu":   ["-Lexternal/lib/aarch64-linux-gnu"],
+      ":x86_64-linux-gnu":    ["-Lexternal/lib/x86_64-linux-gnu/opencv4"],
+      "//conditions:default": [],
+    }) + [
+        # "-Lexternal/lib/x86_64-linux-gnu",
+        "-l:libgstbase-1.0"
+        "-l:libgstreamer-1.0",
     ],
     visibility = ["//visibility:public"],
     deps = [
