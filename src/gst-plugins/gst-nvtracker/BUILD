@@ -22,7 +22,7 @@ load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda")
 exports_files(["LICENSE"])
 
 cc_binary(
-    name = "nvtracker",
+    name = "nvdsgst_nvtracker",
     srcs = [
       "convbufmanager.cpp", "gstnvtracker.cpp", "miscdatabufmanager.cpp", "nvtracker_proc.cpp",
       "convbufmanager.h", "gstnvtracker.h", "invtracker_proc.h", "logging.h", "miscdatabufmanager.h", "nvtracker_proc.h"
@@ -34,7 +34,7 @@ cc_binary(
       "-shared",
     ],
     deps = [
-        "//gst-plugins/gst-nvdspreprocess:nvdsgst_dsexample_lib",
+        "//gst-plugins/gst-nvdspreprocess:nvdsgst_preprocess_lib",
         "@deepstream_lib",
         "@NvDsBaseExt",
         "@NvDsInterfaceExt",

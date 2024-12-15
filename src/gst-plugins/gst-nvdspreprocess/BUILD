@@ -5,8 +5,8 @@ load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda")
 exports_files(["LICENSE"])
 
 cc_binary(
-    name = "nvdsgst_dsexample",
-    srcs = [":nvdsgst_dsexample_lib"],
+    name = "nvdsgst_preprocess",
+    srcs = ["gstnvdspreprocess.cpp"],
     copts=[
       "-fPIC",
       "-DWITH_CUDA",
@@ -15,12 +15,13 @@ cc_binary(
       "-shared",
     ],
     deps = [
-        # "@deepstream_lib",
+        ":nvdsgst_preprocess_lib",
+        "@deepstream_lib",
         # "@NvDsBaseExt",
         # "@NvDsInterfaceExt",
         # "@StandardExtension",
-        # "@glib",
-        # "@gstreamer",
+        "@glib",
+        "@gstreamer",
         # "@local_cuda//:cuda_runtime",
         # "@opencv_linux//:opencv",
     ],
@@ -29,12 +30,12 @@ cc_binary(
 )
 
 cc_library(
-    name = "nvdsgst_dsexample_lib",
+    name = "nvdsgst_preprocess_lib",
     srcs = [
-      "gstnvdspreprocess_allocator.cpp", "gstnvdspreprocess.cpp", "nvdspreprocess_property_parser.cpp",
+      "gstnvdspreprocess_allocator.cpp", "nvdspreprocess_property_parser.cpp",
     ],
     hdrs = [
-      "gstnvdspreprocess_allocator.h", "gstnvdspreprocess.h", "nvdspreprocess_property_parser.h",
+      "gstnvdspreprocess_allocator.h", "nvdspreprocess_property_parser.h", "gstnvdspreprocess.h",
     ],
     copts=[
       "-fPIC",

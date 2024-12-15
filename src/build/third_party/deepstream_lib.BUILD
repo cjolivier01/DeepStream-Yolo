@@ -19,6 +19,7 @@ cc_library(
     "-l:libnvdsgst_helper.so",
     "-l:libnvds_meta.so", 
     "-l:libnvbufsurftransform.so",
+    "-l:libnvdsgst_customhelper.so",
   ],
   visibility = ["//visibility:public"],
 )
