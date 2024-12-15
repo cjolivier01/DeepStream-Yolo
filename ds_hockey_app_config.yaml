@@ -133,6 +133,15 @@ primary-gie:
   nvbuf-memory-type: 0
   config-file: config_infer_yolox_hockey.yaml
 
+ds-example:
+  enable: 1
+  gpu-id: 0
+  # batch-size: 16
+  #gie-unique-id: 2
+  #operate-on-gie-id: 1
+  #operate-on-class-ids: 0
+  #config-file: config_infer_primary_yolox.yaml
+
 tracker:
   enable: 1
   # For NvDCF and NvDeepSORT tracker, tracker-width and tracker-height must be a multiple of 32, respectively
