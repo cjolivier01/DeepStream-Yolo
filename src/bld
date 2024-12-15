@@ -8,7 +8,6 @@ bazel build ${BAZEL_FLAGS}  //...
 BIN_DIR="$(bazel info ${BAZEL_FLAGS} bazel-bin)"
 echo "BIN_DIR=${BIN_DIR}"
 EXTENSIONS="$(cat ${SCRIPT_DIR}/extensions.lst)"
-#extensions/hello_world/libgxf_hello_world.so
 for ext in ${EXTENSIONS}; do
   ln -sf -v ${BIN_DIR}/extensions/${ext}/libgxf_${ext}.so ${SCRIPT_DIR}/_test_libs/libgxf_${ext}.so
 done

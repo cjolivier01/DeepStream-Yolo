@@ -214,6 +214,10 @@ components:
 - name: GstDsExample placeholder display-name0
   parameters:
     batch-size: 4
+    blur-objects: false
+    full-frame: true
+    processing-height: 480
+    processing-width: 1320
     video-in: Static Data Input2
     video-out: Static Data Output1
   type: nvidia::deepstream::GstDsExample
