@@ -30,6 +30,8 @@
 
 #include "gst-nvevent.h"
 
+#include "deepstream_tracker.h"
+
 #include "nvtracker_proc.h"
 #include "logging.h"
 
