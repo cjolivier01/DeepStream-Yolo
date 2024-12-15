@@ -81,8 +81,11 @@ cc_library(
       "//conditions:default": [],
     }) + [
         "-Lexternal/lib/x86_64-linux-gnu",
-        "-l:external/lib/x86_64-linux-gnu/libgstbase-1.0",
-        "-l:external/lib/x86_64-linux-gnu/libgstreamer-1.0",
+        "-l:libgstbase-1.0.so",
+        "-l:libgstreamer-1.0.so",
+        "-l:libgstvideo-1.0.so",
+        # "-l:external/lib/x86_64-linux-gnu/libgstbase-1.0.so",
+        # "-l:external/lib/x86_64-linux-gnu/libgstreamer-1.0.so",
     ],
     visibility = ["//visibility:public"],
     deps = [

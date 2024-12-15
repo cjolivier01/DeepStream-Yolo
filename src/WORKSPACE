@@ -97,7 +97,8 @@ new_local_repository(
 new_git_repository(
      name="glib",
      build_file="//build:third_party/glib.BUILD",
-     commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
+     #commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
+     commit="763cc3b238398614c20069fd67642730e3a6519b",
     patch_cmds=[
         "meson setup builddir -Ddebug=true -Dprefix=$(pwd)/external",
         "ninja -C builddir install",
