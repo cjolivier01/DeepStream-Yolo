@@ -202,7 +202,7 @@ static GstFlowReturn gst_ds_example_submit_input_buffer(GstBaseTransform * trans
     return GST_FLOW_ERROR;
   }
 
-  // /** Check frame number in batch doesn't exceed batch size */
+  // /** Check frame count in batch doesn't exceed batch size */
   if (dsexample->batch_size && input.pBatchMeta->num_frames_in_batch > dsexample->batch_size)
   {
     GST_ELEMENT_ERROR (dsexample, STREAM, FAILED,
