@@ -17,6 +17,9 @@
 
 #include <stdio.h>
 
+#include <driver_types.h>
+#include <cuda_runtime.h>
+
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
 {
    if (code != cudaSuccess)

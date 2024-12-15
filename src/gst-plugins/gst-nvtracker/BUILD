@@ -29,14 +29,12 @@ cc_binary(
     ],
     copts=[
       "-fPIC",
-      "-DWITH_OPENCV=1",
     ],
     linkopts=[
       "-shared",
-      #"-Wl,--unresolved-symbols=ignore-all",
     ],
     deps = [
-        #"//extensions/includes:deepstream_headers",
+        "//gst-plugins/gst-nvdspreprocess:nvdsgst_dsexample_lib",
         "@deepstream_lib",
         "@NvDsBaseExt",
         "@NvDsInterfaceExt",
@@ -44,7 +42,6 @@ cc_binary(
         "@glib",
         "@gstreamer",
         "@local_cuda//:cuda_runtime",
-        "@opencv_linux//:opencv",
     ],
     visibility = ["//visibility:public"],
     linkshared = True,

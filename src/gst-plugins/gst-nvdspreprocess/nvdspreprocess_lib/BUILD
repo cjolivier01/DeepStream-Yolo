@@ -31,6 +31,9 @@ cc_library(
     copts=[
       "-fPIC",
     ],
+    includes = [
+      ".",
+    ],
     deps = [
         ":nvdspreprocess_cuda_lib",
         "@deepstream_lib",
