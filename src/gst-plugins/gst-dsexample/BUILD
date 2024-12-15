@@ -24,15 +24,12 @@ exports_files(["LICENSE"])
 graph_cc_extension(
     name = "dsexample",
     srcs = [
-      "gstdsexample.cpp", "gstdsexample_optimized.cpp", "dsexample_lib.c",
+      "gstdsexample.cpp", "dsexample_lib.c",
     ],
     hdrs = [
-      "gstdsexample.h", "gstdsexample_optimized.h", "dsexample_lib.h",
+      "gstdsexample.h", "dsexample_lib.h",
     ],
     copts=[
-      # "-Ibuild/third_party/gstreamer/external/include/gstreamer-1.0",
-      #"-Iinclude",
-      # "-I../include",
     ],
     deps = [
         "//extensions/includes:deepstream_headers",
@@ -42,6 +39,29 @@ graph_cc_extension(
         "@glib",
         "@gstreamer",
         "@local_cuda//:cuda_runtime",
+        "@opencv_linux//:opencv",
+    ],
+)
+
+graph_cc_extension(
+    name = "dsexample_optimized",
+    srcs = [
+      "gstdsexample_optimized.cpp", "dsexample_lib.c",
+    ],
+    hdrs = [
+      "gstdsexample_optimized.h", "dsexample_lib.h",
+    ],
+    copts=[
+    ],
+    deps = [
+        "//extensions/includes:deepstream_headers",
+        "@NvDsBaseExt",
+        "@NvDsInterfaceExt",
+        "@StandardExtension",
+        "@glib",
+        "@gstreamer",
+        "@local_cuda//:cuda_runtime",
+        "@opencv_linux//:opencv",
     ],
 )
 

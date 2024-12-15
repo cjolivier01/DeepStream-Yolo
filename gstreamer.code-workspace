@@ -23,6 +23,9 @@
     },
     {
       "path": "../glib"
+    },
+    {
+      "path": "../opencv-bazel"
     }
   ],
   "settings": {

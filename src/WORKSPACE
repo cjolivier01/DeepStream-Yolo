@@ -69,6 +69,13 @@ git_repository(
     strip_prefix="",  # No need for strip_prefix since Git directly clones the repository
 )
 
+new_local_repository(
+    name = "opencv_linux",
+    path = "/usr/include",
+    build_file = "@//build:third_party/opencv_linux.BUILD"
+)
+
+
 # new_git_repository(
 #     name="glib",
 #     build_file="//build:third_party/glib.BUILD",
