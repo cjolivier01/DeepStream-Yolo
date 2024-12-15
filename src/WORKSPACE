@@ -11,6 +11,12 @@ local_repository(
 )
 
 # local_repository(
+#     name="deepstream_apps_common",
+#     path="/opt/nvidia/deepstream/deepstream/sources/apps/apps-common",
+#     build_file = "@//build:third_party/deepstream_apps_common.BUILD"
+# )
+
+# local_repository(
 #     name = "system_gstreamer_headers",
 #     path = "/usr/include/gstreamer-1.0",
 # )
