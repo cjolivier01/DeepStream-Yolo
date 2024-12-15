@@ -17,11 +17,6 @@ new_local_repository(
     build_file = "@//build:third_party/deepstream_apps_common.BUILD"
 )
 
-# local_repository(
-#     name = "system_gstreamer_headers",
-#     path = "/usr/include/gstreamer-1.0",
-# )
-
 load(
     "@com_extension_dev//build:graph_extension.bzl",
     "load_extension_dev_workspace",
@@ -88,53 +83,16 @@ new_local_repository(
     build_file = "@//build:third_party/deepstream_lib.BUILD"
 )
 
-
-# new_git_repository(
-#     name="glib",
-#     build_file="//build:third_party/glib.BUILD",
-#     commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
-#     patch_cmds=[
-#         "meson _build",
-#         "ninja -C _build gobject/glib-enumtypes.h",
-#     ],
-#     remote="https://github.com/GNOME/glib.git",
-#     shallow_since="1545145431 +0000",
-# )
-
 new_git_repository(
-     name="glib",
-     build_file="//build:third_party/glib.BUILD",
-     #commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
-     commit="763cc3b238398614c20069fd67642730e3a6519b",
+    name="glib",
+    build_file="//build:third_party/glib.BUILD",
+    commit="763cc3b238398614c20069fd67642730e3a6519b",
     patch_cmds=[
         "meson setup builddir -Ddebug=true -Dprefix=$(pwd)/external",
         "ninja -C builddir install",
     ],
     remote="https://github.com/GNOME/glib.git",
 )
-
-
-# new_git_repository(
-#     name="gstreamer",
-#     build_file="//build:third_party/gstreamer.BUILD",
-#     commit="129493687793cbc109d6211bb0e465218e383e9d",
-#     patch_cmds=[
-#         "./autogen.sh --noconfigure",
-#         "./configure",
-#         "make -C gst gstenumtypes.h",
-#     ],
-#     remote="https://github.com/GStreamer/gstreamer.git",
-#     shallow_since="1559147561 +0100",
-# )
-
-# 1.24.2
-
-# http_archive(
-#     name = "gstreamer",
-#     urls = ["https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.24.2.tar.xz"],
-#     # sha256 = "2d8273151571fcab887cc81de48e87aeb61b5c06",  # Update with actual SHA-256
-#     build_file="//build:third_party/gstreamer.BUILD",
-# )
 
 new_git_repository(
     name="gstreamer",
