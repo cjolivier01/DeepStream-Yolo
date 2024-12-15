@@ -99,7 +99,7 @@ components:
 name: GstNvInfer placeholder display-name
 ui_property:
   position:
-    x: -2186.846435546875
+    x: -2242.760498046875
     y: -678.9724731445312
 ---
 components:

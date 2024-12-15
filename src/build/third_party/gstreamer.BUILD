@@ -80,9 +80,9 @@ cc_library(
       ":x86_64-linux-gnu":    ["-Lexternal/lib/x86_64-linux-gnu/opencv4"],
       "//conditions:default": [],
     }) + [
-        # "-Lexternal/lib/x86_64-linux-gnu",
-        "-l:libgstbase-1.0"
-        "-l:libgstreamer-1.0",
+        "-Lexternal/lib/x86_64-linux-gnu",
+        "-l:external/lib/x86_64-linux-gnu/libgstbase-1.0"
+        "-l:external/lib/x86_64-linux-gnu/libgstreamer-1.0",
     ],
     visibility = ["//visibility:public"],
     deps = [

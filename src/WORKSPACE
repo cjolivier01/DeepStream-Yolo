@@ -99,11 +99,10 @@ new_git_repository(
      build_file="//build:third_party/glib.BUILD",
      commit="e264e6fcf7f5199e137314b0d1ebca7648613148",
     patch_cmds=[
-        "meson setup builddir -Dprefix=$(pwd)/external",
+        "meson setup builddir -Ddebug=true -Dprefix=$(pwd)/external",
         "ninja -C builddir install",
     ],
     remote="https://github.com/GNOME/glib.git",
-    # shallow_since="1559147561 +0100",
 )
 
 
@@ -134,9 +133,8 @@ new_git_repository(
     build_file="//build:third_party/gstreamer.BUILD",
     commit="2d8273151571fcab887cc81de48e87aeb61b5c06",
     patch_cmds=[
-        "meson setup builddir -Dprefix=$(pwd)/external",
+        "meson setup builddir -Ddebug=true -Dprefix=$(pwd)/external",
         "ninja -C builddir install",
     ],
     remote="https://github.com/GStreamer/gstreamer.git",
-    # shallow_since="1559147561 +0100",
 )

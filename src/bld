@@ -2,6 +2,7 @@
 set -e
 SCRIPT_DIR=$(dirname $(realpath $0))
 BAZEL_FLAGS="--config=debug $@"
+# BAZEL_FLAGS=" --//:multiarch=aarch64-linux-gnu ${BAZEL_FLAGS}"
 bazel build ${BAZEL_FLAGS}  //...
 
 BIN_DIR="$(bazel info ${BAZEL_FLAGS} bazel-bin)"

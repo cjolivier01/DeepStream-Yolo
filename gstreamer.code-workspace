@@ -4,9 +4,6 @@
       "path": "../gstreamer"
     },
     {
-      "path": "../deepstream_python_apps"
-    },
-    {
       "path": "../YOLOX"
     },
     {
@@ -14,9 +11,6 @@
     },
     {
       "path": "../hmdeepstream"
-    },
-    {
-      "path": "../deepstream_reference_apps"
     },
     {
       "path": "../../../../opt/nvidia/graph-composer"
