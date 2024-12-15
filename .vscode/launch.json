@@ -31,12 +31,17 @@
       "linux": {
         // "envFile": "${workspaceFolder}/${config:mesonbuild.buildFolder}/meson-vscode.env",
       },
-      "cwd": "${workspaceFolder}/",
+      "cwd": "${workspaceFolder}/src",
       // "program": "/usr/bin/deepstream-app",
       "program": "/home/colivier/src/hmdeepstream/deepstream/sources/apps/sample_apps/deepstream-app/deepstream-app",
       "args": [
         "-c", "${workspaceFolder}/ds_hockey_app_config.yaml"
       ],
+      "sourceMap": {
+        "/proc/self/cwd": "${workspaceFolder}/src",
+        //"/home/colivier/src": "~/src",
+        "~/src": "/home/colivier/src",
+      },
       "env": {
         //"GST_DEBUG": "4",
         "LD_LIBRARY_PATH": "/home/colivier/src/hmdeepstream/deepstream/lib:/opt/nvidia/deepstream/deepstream/lib:/home/colivier/mambaforge/envs/ubuntu/lib:/home/colivier/mambaforge/envs/ubuntu/lib/x86_64-linux-gnu",
