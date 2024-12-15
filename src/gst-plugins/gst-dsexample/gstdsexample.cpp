@@ -228,8 +228,8 @@ gst_dsexample_class_init (GstDsExampleClass * klass)
 static void
 gst_dsexample_init (GstDsExample * dsexample)
 {
-  std::cerr << "element ASSERTING" << std::endl;
-  assert(false);
+  //std::cerr << "element ASSERTING" << std::endl;
+  //assert(false);
   GstBaseTransform *btrans = GST_BASE_TRANSFORM (dsexample);
 
   /* We will not be generating a new buffer. Just adding / updating

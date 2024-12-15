@@ -29,6 +29,7 @@ graph_cc_extension(
         "dsexample.hpp",
     ],
     deps = [
+        # "//gst-plugins/gst-dsexample:dsexample",
         "@NvDsBaseExt",
         "@NvDsInterfaceExt",
         "@glib",

@@ -21,18 +21,35 @@ load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda")
 
 exports_files(["LICENSE"])
 
-graph_cc_extension(
+# cc_binary(
+#   name = "dsexample",
+#   srcs=[":dsexample_lib"],
+#   linkopts=[
+#       "-shared",
+#   ],
+#   linkshared = 1,
+# )
+
+#graph_cc_extension(
+#cc_library(
+cc_binary(
     name = "dsexample",
     srcs = [
-      "gstdsexample.cpp", "dsexample_lib.c",
+      "gstdsexample.cpp", "dsexample_lib.c", "gstdsexample.h", "dsexample_lib.h",
     ],
-    hdrs = [
-      "gstdsexample.h", "dsexample_lib.h",
-    ],
+    # hdrs = [
+    #   "gstdsexample.h", "dsexample_lib.h",
+    # ],
     copts=[
+      "-fPIC",
+    ],
+    linkopts=[
+      "-shared",
+      #"-Wl,--unresolved-symbols=ignore-all",
     ],
     deps = [
-        "//extensions/includes:deepstream_headers",
+        #"//extensions/includes:deepstream_headers",
+        "@deepstream_lib",
         "@NvDsBaseExt",
         "@NvDsInterfaceExt",
         "@StandardExtension",
@@ -41,47 +58,51 @@ graph_cc_extension(
         "@local_cuda//:cuda_runtime",
         "@opencv_linux//:opencv",
     ],
-)
-
-graph_cc_extension(
-    name = "dsexample_optimized",
-    srcs = [
-      "gstdsexample_optimized.cpp", "dsexample_lib.c",
-    ],
-    hdrs = [
-      "gstdsexample_optimized.h", "dsexample_lib.h",
-    ],
-    copts=[
-    ],
-    deps = [
-        "//extensions/includes:deepstream_headers",
-        "@NvDsBaseExt",
-        "@NvDsInterfaceExt",
-        "@StandardExtension",
-        "@glib",
-        "@gstreamer",
-        "@local_cuda//:cuda_runtime",
-        "@opencv_linux//:opencv",
-    ],
-)
-
-register_extension(
-    name = "register_nvtracker_ext",
-    badges = [""],
-    extension = "dsexample",
-    labels = [
-        "nvidia",
-        "gpu",
-        "deepstream",
-    ],
-    ngc_dependencies = {
-        "NvDsBaseExt": "1.6.0",
-    },
-    priority = "1",
-    git_repository = "",
-    compute_dependencies = ["deepstream"],
-    url = "www.example.com",
-    uuid = "1ca0f521-371e-3c65-80fd-0b6a7cac4082",
-    version = "0.0.1",
     visibility = ["//visibility:public"],
+    linkshared = True,
 )
+
+# graph_cc_extension(
+#     name = "dsexample_optimized",
+#     srcs = [
+#       "gstdsexample_optimized.cpp", "dsexample_lib.c",
+#     ],
+#     hdrs = [
+#       "gstdsexample_optimized.h", "dsexample_lib.h",
+#     ],
+#     copts=[
+#     ],
+#     deps = [
+#         #"//extensions/includes:deepstream_headers",
+#         "@deepstream_lib",
+#         # "@NvDsBaseExt",
+#         # "@NvDsInterfaceExt",
+#         # "@StandardExtension",
+#         "@glib",
+#         "@gstreamer",
+#         "@local_cuda//:cuda_runtime",
+#         "@opencv_linux//:opencv",
+#     ],
+#     visibility = ["//visibility:public"],
+# )
+
+# register_extension(
+#     name = "register_nvtracker_ext",
+#     badges = [""],
+#     extension = "dsexample",
+#     labels = [
+#         "nvidia",
+#         "gpu",
+#         "deepstream",
+#     ],
+#     ngc_dependencies = {
+#         "NvDsBaseExt": "1.6.0",
+#     },
+#     priority = "1",
+#     git_repository = "",
+#     compute_dependencies = ["deepstream"],
+#     url = "www.example.com",
+#     uuid = "1ca0f521-371e-3c65-80fd-0b6a7cac4082",
+#     version = "0.0.1",
+#     visibility = ["//visibility:public"],
+# )

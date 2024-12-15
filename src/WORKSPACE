@@ -75,6 +75,12 @@ new_local_repository(
     build_file = "@//build:third_party/opencv_linux.BUILD"
 )
 
+new_local_repository(
+    name = "deepstream_lib",
+    path = "/opt/nvidia/deepstream/deepstream-7.1",
+    build_file = "@//build:third_party/deepstream_lib.BUILD"
+)
+
 
 # new_git_repository(
 #     name="glib",
