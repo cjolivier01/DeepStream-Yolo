@@ -27,6 +27,7 @@ cc_binary(
         "@StandardExtension",
         "@glib",
         "@gstreamer",
+        "@yaml-cpp",
         "@local_cuda//:cuda_runtime",
     ],
     visibility = ["//visibility:public"],
