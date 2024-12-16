@@ -3,21 +3,10 @@ load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda")
 
 cc_binary(
     name = "nvdsinfer_custom_impl_Yolo",
-    srcs=[
-      ":nvdsinfer_custom_impl_Yolo_lib",
-    ],
-    visibility = ["//visibility:public"],
-    linkshared = True,
-)
-
-cc_library(
-    name = "nvdsinfer_custom_impl_Yolo_lib",
     srcs = glob([
         "*.cpp",
         "layers/*.cpp",
     ]),
-    # Define the compilation flags similar to CFLAGS/CUFLAGS
-    # Adjust these paths, flags, and CUDA version as needed.
     copts = [
         "-Wall",
         "-std=c++11",
@@ -25,10 +14,10 @@ cc_library(
         "-Wno-error=deprecated-declarations",
         "-DWITH_CUDA",
     ],
-    # Add libraries. Adjust the library search paths as needed.
-    # If OPENCV=1, append `-lopencv_core -lopencv_highgui` etc. as needed.
     linkopts = [
         "-shared",
+        "-Wl,-z,defs",
+        "-Wno-error=deprecated-declarations",
         "-Wl,--start-group",
         "-lnvinfer_plugin",
         "-lnvinfer",
@@ -38,11 +27,11 @@ cc_library(
         "-lcublas",
         "-lstdc++fs",
         # Include nvparsers if available
-        "-lnvparsers",
+        # "-lnvparsers",
         "-Wl,--end-group",
+        # -lnvinfer_plugin -lnvinfer -lnvonnxparser -lcudart -lcublas -lstdc++fs
     ],
     deps=[
-        ":nvdsinfer_custom_impl_Yolo_headers",
         ":nvdsinfer_custom_impl_Yolo_cuda_lib",
         "@deepstream_lib",
         "@deepstream_apps_common",
@@ -54,9 +43,41 @@ cc_library(
         "@opencv_linux//:opencv",
         "@local_cuda//:cuda_runtime",
     ],
-    # Make sure the library is visible to where it’s needed.
+    linkshared = True,
     visibility = ["//visibility:public"],
 )
+
+# cc_library(
+#     name = "nvdsinfer_custom_impl_Yolo_lib",
+#     # srcs = glob([
+#     #     "*.cpp",
+#     #     "layers/*.cpp",
+#     # ]),
+#     # Define the compilation flags similar to CFLAGS/CUFLAGS
+#     # Adjust these paths, flags, and CUDA version as needed.
+#     copts = [
+#         "-Wall",
+#         "-std=c++11",
+#         "-fPIC",
+#         "-Wno-error=deprecated-declarations",
+#         "-DWITH_CUDA",
+#     ],
+#     # Add libraries. Adjust the library search paths as needed.
+#     # If OPENCV=1, append `-lopencv_core -lopencv_highgui` etc. as needed.
+#     deps=[
+#         "@deepstream_lib",
+#         "@deepstream_apps_common",
+#         "@NvDsBaseExt",
+#         "@NvDsInterfaceExt",
+#         "@StandardExtension",
+#         "@glib",
+#         "@gstreamer",
+#         "@opencv_linux//:opencv",
+#         "@local_cuda//:cuda_runtime",
+#     ],
+#     # Make sure the library is visible to where it’s needed.
+#     visibility = ["//visibility:public"],
+# )
 
 cuda_library(
     name = "nvdsinfer_custom_impl_Yolo_cuda_lib",
@@ -64,7 +85,9 @@ cuda_library(
         "*.cu",
     ]),
     copts=[
-      "-DWITH_CUDA",
+        "-std=c++11",
+        "-Xcompiler=-fPIC",
+        "-DWITH_CUDA",
     ],
     linkopts=[
       "-shared",
