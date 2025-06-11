@@ -64,7 +64,7 @@ def main(args):
     img_size = [exp.input_size[1], exp.input_size[0]]
 
     onnx_input_im = torch.zeros(args.batch, 3, *img_size).to(device)
-    onnx_output_file = f"{args.weights}.new.onnx"
+    onnx_output_file = f"{args.weights}.new.onnx" if not args.output else args.output
 
     dynamic_axes = {
         'input': {
@@ -100,6 +100,9 @@ def parse_args():
         "--exp",
         required=True,
         help="Input exp (.py) file path or exp name(required)",
+    )
+    parser.add_argument(
+        "-o", "--output", type=str, default=None, help="Static batch-size"
     )
     parser.add_argument('--opset', type=int, default=11, help='ONNX opset version')
     parser.add_argument('--simplify', action='store_true', help='ONNX simplify model')
