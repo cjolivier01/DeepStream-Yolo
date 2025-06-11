@@ -49,6 +49,26 @@
       }
     },
     {
+      //
+      // Python: Current File
+      //
+      "name": "Python: test_onnx.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/test_onnx.py",
+      "args": [
+        "--onnx-model=hm_output_yolox_s_coco300_ch80.pth.onnx",
+        "--image=${env:HOME}/Videos/mlk-heat-1/left.png",
+        // "--input-size 1312 480",
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceRoot}/build:${workspaceRoot}/src:${workspaceRoot}/external/MOTChallengeEvalKit"
+      }
+    },
+    {
       "name": "(LLDB) deepstream-app",
       "type": "lldb",
       "request": "launch",
