@@ -6,3 +6,4 @@ bazel-out
 bazel-testlogs
 *.pyc
 hm_output_yolox_s_coco300_ch80.pth.onnx
+hm_output_yolox_s_coco300_ch80.pth.onnx.rknn
