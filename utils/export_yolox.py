@@ -25,7 +25,10 @@ class DeepStreamOutput(nn.Module):
 
 
 def yolox_export(weights, exp_file):
-    exp = get_exp(exp_file)
+    if ".py" in exp_file or "/" in exp_file:
+        exp = get_exp(exp_file=exp_file)
+    else:
+        exp = get_exp(exp_name=exp_file)
     model = exp.get_model()
     ckpt = torch.load(weights, map_location='cpu')
     model.eval()
@@ -61,7 +64,7 @@ def main(args):
     img_size = [exp.input_size[1], exp.input_size[0]]
 
     onnx_input_im = torch.zeros(args.batch, 3, *img_size).to(device)
-    onnx_output_file = f'{args.weights}.onnx'
+    onnx_output_file = f"{args.weights}.new.onnx"
 
     dynamic_axes = {
         'input': {
@@ -92,7 +95,12 @@ def parse_args():
     import argparse
     parser = argparse.ArgumentParser(description='DeepStream YOLOX conversion')
     parser.add_argument('-w', '--weights', required=True, help='Input weights (.pth) file path (required)')
-    parser.add_argument('-c', '--exp', required=True, help='Input exp (.py) file path (required)')
+    parser.add_argument(
+        "-c",
+        "--exp",
+        required=True,
+        help="Input exp (.py) file path or exp name(required)",
+    )
     parser.add_argument('--opset', type=int, default=11, help='ONNX opset version')
     parser.add_argument('--simplify', action='store_true', help='ONNX simplify model')
     parser.add_argument('--dynamic', action='store_true', help='Dynamic batch-size')

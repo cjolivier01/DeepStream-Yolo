@@ -25,6 +25,30 @@
       }
     },
     {
+      //
+      // Python: Current File
+      //
+      "name": "Python: export_yolox.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/utils/export_yolox.py",
+      "args": [
+        "-w",
+        "${workspaceFolder}/pretrained/deepstream/yolox/test_output_yolox_s_coco300_ch80.pth",
+        "-c",
+        // "yolox.exp.default.yolox_s",
+        "yolox_s",
+        // "--simplify",
+        // "--dynamic",
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceRoot}/build:${workspaceRoot}/src:${workspaceRoot}/external/MOTChallengeEvalKit"
+      }
+    },
+    {
       "name": "(LLDB) deepstream-app",
       "type": "lldb",
       "request": "launch",
